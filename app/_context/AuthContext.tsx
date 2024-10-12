@@ -1,3 +1,4 @@
+'use client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import React, { createContext, useState, useEffect, useContext } from 'react';
@@ -9,6 +10,7 @@ export interface AuthContextType {
   login: (userData: LogIn) => Promise<void>;
   createAccount: (userData: Register) => Promise<void>;
   logout: () => void;
+  setUser: (user: User) => void;
   setError: (value: boolean) => void;
   loading: boolean;
   error: boolean;
@@ -119,6 +121,7 @@ export const AuthProvider = ({
         setError,
         loading,
         error,
+        setUser,
         errorMessage,
       }}>
       {children}

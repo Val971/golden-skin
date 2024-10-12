@@ -15,7 +15,7 @@ export default function PaymentConfirm({
   const router = useRouter();
   useEffect(() => {
     setOrder(orders.find((ord) => ord.id === params.paymentId));
-  }, []);
+  }, [router, orders, params]);
 
   return (
     <section className='bg-white py-8 antialiased dark:bg-gray-900 md:py-16'>

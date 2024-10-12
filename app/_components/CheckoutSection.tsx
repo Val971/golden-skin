@@ -9,7 +9,7 @@ import PhoneInput from 'react-phone-input-2';
 import { useForm, Controller } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import convertToSubcurrency from '../../../_utils/convertToCurrency';
+import convertToSubcurrency from '../_utils/convertToCurrency';
 import { Input } from '@/components/ui/input';
 import { CartItem, Checkout } from '@/app/types';
 import { Loader } from 'lucide-react';
@@ -66,7 +66,7 @@ export default function CheckoutSection({
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
-  }, [subTotal]);
+  }, [subTotal, router, shippingFees]);
 
   const checkout = async (data: Checkout) => {
     setLoader(true);

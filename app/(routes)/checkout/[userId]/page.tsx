@@ -1,7 +1,7 @@
 'use client';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import CheckoutSection from '../_components/CheckoutSection';
+import CheckoutSection from '../../../_components/CheckoutSection';
 import convertToSubcurrency from '../../../_utils/convertToCurrency';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -28,7 +28,7 @@ export default function App() {
       total = total + item.quantity * item.price;
     });
     setSubTotal(total);
-  }, [cart]);
+  }, [cart, router]);
 
   const options = {
     //clientSecret: '{{CLIENT_SECRET}}',

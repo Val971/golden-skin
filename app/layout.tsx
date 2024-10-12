@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { CartProvider } from './_context/CartContext';
 import { ProductProvider } from './_context/ProductListContext';
 import { AuthProvider } from './_context/AuthContext';
-import { OrderProvider } from './_context/OrderContext';
+//import { OrderProvider } from './_context/OrderContext';
 import { DatasContentProvider } from './_context/DataContentContext';
 
 const poppins = Poppins({
@@ -28,18 +28,18 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${poppins.className} antialiased`}>
         <DatasContentProvider>
-          <OrderProvider>
-            <AuthProvider>
-              <ProductProvider>
-                <CartProvider>
-                  {showHeader && <Header />}
-                  {children}
-                  <Toaster />
-                  {showFooter && <Footer />}
-                </CartProvider>
-              </ProductProvider>
-            </AuthProvider>
-          </OrderProvider>
+          {/* <OrderProvider> */}
+          <AuthProvider>
+            <ProductProvider>
+              <CartProvider>
+                {showHeader && <Header />}
+                {children}
+                <Toaster />
+                {showFooter && <Footer />}
+              </CartProvider>
+            </ProductProvider>
+          </AuthProvider>
+          {/* </OrderProvider> */}
         </DatasContentProvider>
       </body>
     </html>
