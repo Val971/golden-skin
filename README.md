@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Golden Skin
 
-## Getting Started
+Golden Skin est une application eCommerce moderne développée avec **Strapi**, **Next.js**, et **PostgreSQL**, déployée sur **Render**. Cette application vise à fournir une expérience utilisateur fluide pour l'achat de produits de soins de la peau.
 
-First, run the development server:
+![Screenshot 2024-10-12 193339](https://github.com/user-attachments/assets/1837919b-5487-4931-937e-22638d978c04)
+![Screenshot 2024-10-12 193312](https://github.com/user-attachments/assets/1bb4d34a-ac76-4697-bc41-585657e862c5)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table des matières
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Fonctionnalités](#fonctionnalités)
+- [Technologies utilisées](#technologies-utilisées)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Déploiement](#déploiement)
+- [Contributions](#contributions)
+- [Licence](#licence)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Fonctionnalités
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Golden Skin comprend les fonctionnalités de base d'un site eCommerce :
 
-## Learn More
+- **Gestion des produits** : Ajoutez, modifiez et supprimez des produits.
+- **Catégorisation des produits** : Organisez les produits par catégories pour une navigation facile.
+- **Panier d'achat** : Les utilisateurs peuvent ajouter des produits à leur panier et passer à la caisse.
+- **Authentification des utilisateurs** : Inscription et connexion des utilisateurs pour un accès personnalisé.
+- **Traitement des commandes** : Les utilisateurs peuvent passer des commandes et recevoir des confirmations.
+- **Gestion des utilisateurs** : Les administrateurs peuvent gérer les comptes des utilisateurs et leurs commandes.
+- **Recherche et filtrage** : Les utilisateurs peuvent rechercher des produits et appliquer des filtres pour affiner leur sélection.
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies utilisées
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Strapi** : Headless CMS pour gérer les contenus de l'application.
+- **Next.js** : Framework React pour le rendu côté serveur et l'optimisation des performances.
+- **PostgreSQL** : Base de données relationnelle pour stocker les données de l'application.
+- **Render** : Plateforme d'hébergement pour déployer l'application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Installation
 
-## Deploy on Vercel
+Pour installer Golden Skin en local, suivez les étapes ci-dessous :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clonez le dépôt** :
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   git clone https://github.com/votre-utilisateur/golden-skin.git
+   cd golden-skin
+   npm install
+   npm run dev
+
+
+
