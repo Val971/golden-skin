@@ -51,7 +51,6 @@ export const ProductProvider = ({
   const [error, setError] = useState<SetStateAction<undefined>>();
 
   useEffect(() => {
-    console.log('varibles:', process.env.NEXT_PUBLIC_BACKEND_BASE_URL);
     const storedProducts = localStorage.getItem('products');
     const storedProductCategories = localStorage.getItem('categories');
     if (storedProducts) {
