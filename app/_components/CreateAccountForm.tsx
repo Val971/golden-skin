@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/_context/AuthContext';
 import { Register } from '../types';
 import { useForm } from 'react-hook-form';
+import Link from 'next/link';
 
 export default function CreateAccountForm() {
   const { createAccount, errorMessage, loading } = useAuthContext();
   const [error, setError] = useState(false);
-
-  const router = useRouter();
 
   const {
     register,
@@ -116,14 +114,12 @@ export default function CreateAccountForm() {
           </button>
           <p className='text-sm min-w-72'>
             {`j'ai déjà un compte`}{' '}
-            <button
-              onClick={() => {
-                setError(false);
-                router.push(`/sign-in`);
-              }}
+            <Link
+              href={'/sign-in'}
+              onClick={() => setError(false)}
               className=' underline text-secondary'>
               connexion
-            </button>
+            </Link>
           </p>
         </div>
       </form>

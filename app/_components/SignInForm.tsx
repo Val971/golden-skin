@@ -6,13 +6,12 @@ import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { AuthContext, AuthContextType } from '../_context/AuthContext';
 import { LogIn } from '../types';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function SignInForm() {
   const { login, loading, error, errorMessage, setError } = useContext(
     AuthContext
   ) as AuthContextType;
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -22,6 +21,7 @@ export default function SignInForm() {
   const onLogIn = async (data: LogIn) => {
     await login(data);
   };
+
   return (
     <div>
       {error && <p className=' text-red-600 pt-4'>{errorMessage}</p>}
@@ -77,14 +77,12 @@ export default function SignInForm() {
           </button>
           <p className='text-sm min-w-72'>
             {`je n'est pas encore de compte`}{' '}
-            <button
-              onClick={() => {
-                setError(false);
-                router.push(`/create-account`);
-              }}
+            <Link
+              href={'/create-account'}
+              onClick={() => setError(false)}
               className=' underline text-secondary'>
               inscription
-            </button>
+            </Link>
           </p>
         </div>
       </form>
