@@ -11,14 +11,14 @@ export default function FamousProductList() {
 
   return (
     <ContentWrapper>
-      {loading ? ( // Display skeletons if loading
-        <div className='flex justify-between mt-10 lg:mt-20'>
+      {!loading ? ( // Display skeletons if loading
+        <div className='max-w-screen-2xl grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-7 mt-20'>
           {Array.from({ length: 4 }).map((_, index) => (
             <div key={index} className='flex flex-col space-y-3 '>
-              <Skeleton className=' h-[10rem] lg:h-[20rem] w-[250px] rounded-xl' />
+              <Skeleton className=' h-[10rem] lg:h-[20rem] lg:w-[250px] rounded-xl' />
               <div className='space-y-2'>
-                <Skeleton className='h-4 w-[250px]' />
-                <Skeleton className='h-4 w-[200px]' />
+                <Skeleton className='h-4 lg:w-[250px]' />
+                <Skeleton className='h-4 lg:w-[200px]' />
               </div>
             </div>
           ))}

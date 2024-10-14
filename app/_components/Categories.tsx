@@ -16,15 +16,15 @@ export default function Categories() {
   }, []);
   return (
     <ContentWrapper>
-      {categoriesLoading ? (
+      {!categoriesLoading ? (
         // Display skeletons if loading
         <div className='flex justify-between mt-10 lg:mt-20'>
           {Array.from({ length: 4 }).map((_, index) => (
             <div key={index} className='flex flex-col space-y-3 '>
-              <Skeleton className='h-[125px] w-[250px] rounded-xl' />
+              <Skeleton className='h-[125px] lg:w-[250px] rounded-xl' />
               <div className='space-y-2'>
-                <Skeleton className='h-4 w-[250px]' />
-                <Skeleton className='h-4 w-[200px]' />
+                <Skeleton className='h-4 lg:w-[250px] w-20' />
+                <Skeleton className='h-4 lg:w-[200px] w-20' />
               </div>
             </div>
           ))}
