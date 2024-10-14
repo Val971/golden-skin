@@ -9,6 +9,7 @@ interface ProductCartProps {
 }
 export default function ProductCard({ product }: ProductCartProps) {
   const router = useRouter();
+  console.log(`product`, product);
   return (
     <div key={product.documentId}>
       {product ? (
@@ -20,9 +21,7 @@ export default function ProductCard({ product }: ProductCartProps) {
                   router.push(`/product-detail/${product.documentId}`)
                 }
                 className='rounded-3xl object-cover h-[10rem] lg:h-[20rem] cursor-pointer'
-                src={
-                  process.env.NEXT_PUBLIC_BACKEND_BASE_URL + product.images?.url
-                }
+                src={product.images?.url}
                 alt={product.name}
                 width={600}
                 height={400}

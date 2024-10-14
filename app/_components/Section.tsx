@@ -6,10 +6,10 @@ import { useDatasContentContext } from '../_context/DataContentContext';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Section() {
-  const { sections, loading } = useDatasContentContext();
+  const { section, loading } = useDatasContentContext();
   return (
     <ContentWrapper>
-      {loading || sections?.length === 0 ? (
+      {loading ? (
         <>
           <div className='grid lg:grid-cols-2 grid-cols-1 gap-7 p-10'>
             {Array.from({ length: 2 }).map((_, index) => (
@@ -25,7 +25,7 @@ export default function Section() {
         </>
       ) : (
         <>
-          {sections && (
+          {section && (
             <>
               <div className='container flex gap-20 flex-col justify-center mx-auto py-12 lg:py-24 lg:flex-row '>
                 <Image
@@ -33,17 +33,15 @@ export default function Section() {
                   width={600}
                   height={400}
                   alt='carring you section image'
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${sections[0].image.url}`}
+                  src={section.image.url}
                 />
                 <div className='text-primary self-center flex flex-col gap-10 p-2  '>
                   <h4 className='font-bold text-3xl md:text-5xl'>
-                    {sections[0].title}
+                    {section.title}
                   </h4>
-                  <p className='text-xl md:text-2xl'>
-                    {sections[0].description}
-                  </p>
+                  <p className='text-xl md:text-2xl'>{section.description}</p>
                   <button className='bg-primary hover:bg-secondary text-white font-bold py-4 px-4 rounded-xl'>
-                    {sections[0].button.title}
+                    {section.button.title}
                   </button>
                 </div>
               </div>

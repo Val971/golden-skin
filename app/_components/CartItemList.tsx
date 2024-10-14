@@ -39,9 +39,7 @@ export default function CartItemList(props: CartItemListProps) {
                     alt='item cart'
                     width={150}
                     height={100}
-                    src={
-                      process.env.NEXT_PUBLIC_BACKEND_BASE_URL + item.images.url
-                    }
+                    src={item.images.url}
                     className='w-[8rem] h-[8rem] rounded-xl'
                   />
                   <div className='flex flex-col justify-between flex-1'>

@@ -73,16 +73,26 @@ export const ProductProvider = ({
     }
   }, []);
 
+  const filterUniqueProducts = (products: Product[]) => {
+    return products.reduce((acc: Product[], current: Product) => {
+      if (!acc.find((item) => item.documentId === current.documentId)) {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+  };
   const fetchProducts = async () => {
     try {
       const response = await GlobalApi.getAllProducts();
-      if (response) {
-        localStorage.setItem('products', JSON.stringify(response));
-      }
-      setProducts(response);
-      setProductFilterByCategories(response);
+
+      const uniqueProducts = filterUniqueProducts(response);
+
+      localStorage.setItem('products', JSON.stringify(uniqueProducts));
+
+      setProducts(uniqueProducts);
+      setProductFilterByCategories(uniqueProducts);
       setFamousproduct(
-        response.filter((item: Product) => item.state === 'Famous')
+        uniqueProducts.filter((item: Product) => item.state === 'Famous')
       );
     } catch (error) {
       setError(error as undefined);

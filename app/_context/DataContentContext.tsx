@@ -10,7 +10,7 @@ import GlobalApi from '../_utils/GlobalApi';
 
 type DatasContentType = {
   hero?: Hero;
-  sections?: Section[];
+  section?: Section;
   loading: boolean;
 };
 
@@ -32,7 +32,7 @@ export const useDatasContentContext = () => {
 // Fournisseur du contexte
 export const DatasContentProvider = ({ children }: { children: ReactNode }) => {
   const [hero, setHero] = useState<Hero | undefined>();
-  const [sections, setSections] = useState<Section[] | undefined>([]);
+  const [section, setSection] = useState<Section | undefined>();
   const [loading, setLoading] = useState(true);
 
   const getHeroDatasContent = () => {
@@ -52,7 +52,7 @@ export const DatasContentProvider = ({ children }: { children: ReactNode }) => {
     GlobalApi.getHomePageSectionsDatas()
       .then(
         (resp) => {
-          setSections(resp);
+          setSection(resp);
           localStorage.setItem('sections', JSON.stringify(resp));
         },
         () => {
@@ -85,16 +85,14 @@ export const DatasContentProvider = ({ children }: { children: ReactNode }) => {
 
     if (sections) {
       const data = JSON.parse(sections);
-      const sectionsData: Section[] = data.map((item: Section) => {
-        return {
-          title: item.title,
-          description: item.description,
-          image: item.image,
-          button: { title: item.button.title, link: item.button.link },
-          id: item.id,
-        };
-      });
-      setSections(sectionsData);
+      const sectionsData: Section = {
+        title: data.title,
+        description: data.description,
+        image: data.image,
+        button: { title: data.button.title, link: data.button.link },
+        id: data.id,
+      };
+      setSection(sectionsData);
       setLoading(false);
     } else {
       getSectionsDatasContent();
@@ -109,7 +107,7 @@ export const DatasContentProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <DatasContentContext.Provider value={{ hero, loading, sections }}>
+    <DatasContentContext.Provider value={{ hero, loading, section }}>
       {children}
     </DatasContentContext.Provider>
   );

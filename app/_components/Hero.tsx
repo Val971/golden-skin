@@ -25,7 +25,7 @@ export default function Hero() {
       ) : (
         <div
           style={{
-            backgroundImage: `url(${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${hero.image.url})`,
+            backgroundImage: `url(${hero.image.url})`,
           }}
           className={`mx-auto px-4 py-24 lg:flex lg:h-[43rem] lg:items-center 
        bg-cover bg-center `}>

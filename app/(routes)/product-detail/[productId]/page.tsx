@@ -65,10 +65,7 @@ export default function ProductDetail({
             <div className=' grid lg:grid-cols-2 grid-cols-1 gap-7'>
               <Image
                 className='object-cover w-full h-[20rem] lg:h-[50rem]'
-                src={
-                  process.env.NEXT_PUBLIC_BACKEND_BASE_URL +
-                  productDetail.images?.url
-                }
+                src={productDetail.images?.url}
                 alt={productDetail.name}
                 width={600}
                 height={800}

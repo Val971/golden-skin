@@ -2,7 +2,7 @@ export interface Category {
   id: number;
   name: string;
   description: string;
-  image: { url: string };
+  images: { url: string };
 }
 export interface Product {
   documentId: string;

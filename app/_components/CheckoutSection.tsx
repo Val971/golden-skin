@@ -199,9 +199,7 @@ export default function CheckoutSection({
                     alt='item cart'
                     width={150}
                     height={100}
-                    src={
-                      process.env.NEXT_PUBLIC_BACKEND_BASE_URL + item.images.url
-                    }
+                    src={item.images.url}
                     className='m-2 h-24 w-28 rounded-md border object-cover object-center'
                   />
                   <div className='flex w-full flex-col px-4 py-4'>
