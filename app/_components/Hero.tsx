@@ -13,7 +13,7 @@ export default function Hero() {
         <>
           {' '}
           {Array.from({ length: 1 }).map((_, index) => (
-            <div key={index} className='mx-auto max-w-2xl px-4 2xl:px-0'>
+            <div key={index} className='mx-auto m animate-pulse px-4 2xl:px-0'>
               <Skeleton className=' h-[10rem] lg:h-[30rem] w-full rounded-xl' />
               <div className='space-y-2'>
                 <Skeleton className='h-4 w-full' />
