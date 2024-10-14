@@ -16,7 +16,7 @@ export default function Categories() {
   }, []);
   return (
     <ContentWrapper>
-      {!categoriesLoading ? (
+      {categoriesLoading ? (
         // Display skeletons if loading
         <div className='flex justify-between mt-10 lg:mt-20'>
           {Array.from({ length: 4 }).map((_, index) => (
