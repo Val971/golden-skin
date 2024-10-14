@@ -9,7 +9,6 @@ interface ProductCartProps {
 }
 export default function ProductCard({ product }: ProductCartProps) {
   const router = useRouter();
-  console.log(`product`, product);
   return (
     <div key={product.documentId}>
       {product ? (

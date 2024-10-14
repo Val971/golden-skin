@@ -307,7 +307,7 @@ export default function Products() {
                 {loading ? (
                   <Skeleton />
                 ) : (
-                  <div className='grid  xl:grid-cols-4 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
+                  <div className='grid 2xl:grid-cols-4  xl:grid-cols-3 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
                     {productFilterByCategories.map((item: Product) => {
                       return (
                         <ProductCard key={item.documentId} product={item} />
