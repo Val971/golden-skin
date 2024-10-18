@@ -102,7 +102,7 @@ export default function CartItemList(props: CartItemListProps) {
       </div>
       <SheetFooter>
         <SheetClose asChild>
-          <div className=' flex flex-col w-full gap-5'>
+          <div className=' flex flex-col w-full gap-5 mt-0'>
             <div className='flex justify-between'>
               <p className='text-primary font-bold'>Total</p>
               <p className='text-primary font-bold'>{subTotal}$</p>
@@ -110,7 +110,7 @@ export default function CartItemList(props: CartItemListProps) {
             <button
               disabled={cartItemList.length == 0}
               onClick={() =>
-                router.push(jwt ? `/checkout/${user?.id}` : '/sign-in')
+                router.push(jwt ? `/checkout/${user?.id}` : '/auth/sign-in')
               }
               className={`${
                 cartItemList.length == 0

@@ -5,49 +5,77 @@ import React, { useEffect, useState } from 'react';
 import { Loader } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useProductContext } from '@/app/_context/ProductListContext';
-import { CartItem, Size } from '@/app/types';
+import { CartItem, IProduct, Size } from '@/app/types';
 import { useCartContext } from '@/app/_context/CartContext';
+import { notFound } from 'next/navigation';
+import GlobalApi from '@/app/_utils/GlobalApi';
 
 export default function ProductDetail({
   params,
 }: {
   params: { productId: string };
 }) {
-  const { getProductById, productDetail, loading } = useProductContext();
+  const { loading } = useProductContext();
   const { addToCart, cartLoading } = useCartContext();
   const [productCount, setProductCount] = useState<number>(1);
   const [selectSizeId, setSelectSizeId] = useState<number>(0);
   const [productPrice, setProductPrice] = useState<number>(0);
+  const [product, setProduct] = useState<IProduct | null>(null);
+  const [notFount, setNotFound] = useState<string | null>(null);
 
-  useEffect(() => {
-    getProductById(params?.productId);
-  }, []);
-  useEffect(() => {
-    getProductPrice(0);
-  }, [productDetail]);
   const getProductPrice = (index: number) => {
-    if (productDetail) {
-      const price = productDetail.sizes[index].price;
+    if (product) {
+      const price = product.sizes[index].price;
       setSelectSizeId(index);
       setProductPrice(price);
     }
   };
+
+  useEffect(() => {
+    setNotFound(null);
+    const fetchProduct = async () => {
+      GlobalApi.getProductById(params?.productId)
+        .then((res) => {
+          setProduct(res);
+        })
+        .catch((error) => {
+          if (error.status) {
+            setNotFound('Product not found');
+          } else {
+            setNotFound(error.message);
+            throw new Error('An error occurred while fetching the product');
+          }
+        });
+    };
+
+    fetchProduct();
+  }, [params?.productId, setNotFound]);
+  useEffect(() => {
+    getProductPrice(0);
+  }, [product]);
+
+  useEffect(() => {
+    if (notFount === 'Product not found') {
+      return notFound();
+    }
+  }, [notFount]);
+
   const handlerAddToCart = () => {
-    if (productDetail) {
+    if (product) {
       const selectedProduct: CartItem = {
-        ...productDetail,
-        sizes: productDetail.sizes[selectSizeId],
-        price: productCount * productDetail.sizes[selectSizeId].price,
+        ...product,
+        sizes: product.sizes[selectSizeId],
+        price: productCount * product.sizes[selectSizeId].price,
         quantity: productCount,
-        discountPrice: productDetail.discountPrice,
+        discountPrice: product.discountPrice,
       };
       addToCart(selectedProduct);
     }
   };
-
+  console.log('3');
   return (
     <>
-      {loading || !productDetail ? (
+      {loading || !product ? (
         <div className='grid lg:grid-cols-2 grid-cols-1 gap-7 p-10'>
           {Array.from({ length: 2 }).map((_, index) => (
             <div key={index} className='flex flex-col space-y-3 '>
@@ -61,26 +89,24 @@ export default function ProductDetail({
         </div>
       ) : (
         <>
-          {productDetail && (
+          {product && (
             <div className=' grid lg:grid-cols-2 grid-cols-1 gap-7'>
               <Image
                 className='object-cover w-full h-[20rem] lg:h-[50rem]'
-                src={productDetail.images?.url}
-                alt={productDetail.name}
+                src={product.images?.url}
+                alt={product.name}
                 width={600}
                 height={800}
                 unoptimized={true}
               />
               <div className='p-7 lg:p-10 flex gap-3 flex-col '>
                 <h5 className='text-[#C0BBAD] font-semibold'>
-                  {productDetail.categories}
+                  {product.categories}
                 </h5>
                 <h3 className='text-primary font-semibold text-3xl'>
-                  {productDetail.name}
+                  {product.name}
                 </h3>
-                <p className='text-textColor text-sm'>
-                  {productDetail.description}
-                </p>
+                <p className='text-textColor text-sm'>{product.description}</p>
                 <div className='flex flex-col bg-lightBackground p-5 text-center my-5'>
                   <p className='text-primary font-semibold text-lg'>
                     Essayez pendant 30 jours
@@ -92,7 +118,7 @@ export default function ProductDetail({
                 </div>
                 <p className='text-primary uppercase font-semibold'>Size</p>
                 <div className='flex gap-2'>
-                  {productDetail.sizes.map((item: Size, index: number) => {
+                  {product.sizes.map((item: Size, index: number) => {
                     return (
                       <div key={index}>
                         <RadioGroup defaultValue='comfortable'>

@@ -78,7 +78,7 @@ export default function SignInForm() {
           <p className='text-sm min-w-72'>
             {`je n'est pas encore de compte`}{' '}
             <Link
-              href={'/create-account'}
+              href={'/auth/create-account'}
               onClick={() => setError(false)}
               className=' underline text-secondary'>
               inscription

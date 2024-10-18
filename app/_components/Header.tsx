@@ -23,7 +23,7 @@ export default function Header() {
       <MobileMenu setOpen={setOpen} open={open} />
       {/*End Mobile menu */}
       <header className='relative bg-white'>
-        <p className='flex h-10 items-center justify-center bg-primary px-4 text-sm font-medium text-white sm:px-6 lg:px-8'>
+        <p className='flex h-10 items-center justify-center text-center bg-primary px-4 text-sm font-medium text-white sm:px-6 lg:px-8'>
           Bénéficiez de la livraison gratuite sur les commandes de plus de 100 $
         </p>
 

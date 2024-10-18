@@ -115,7 +115,7 @@ export default function CreateAccountForm() {
           <p className='text-sm min-w-72'>
             {`j'ai déjà un compte`}{' '}
             <Link
-              href={'/sign-in'}
+              href={'/auth/sign-in'}
               onClick={() => setError(false)}
               className=' underline text-secondary'>
               connexion

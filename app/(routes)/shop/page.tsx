@@ -22,7 +22,7 @@ import {
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useProductContext } from '@/app/_context/ProductListContext';
 import ProductCard from '@/app/_components/ProductCard';
-import { Product } from '@/app/types';
+import { IProduct } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const subCategories = [
@@ -308,7 +308,7 @@ export default function Products() {
                   <Skeleton />
                 ) : (
                   <div className='grid 2xl:grid-cols-4  xl:grid-cols-3 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
-                    {productFilterByCategories.map((item: Product) => {
+                    {productFilterByCategories.map((item: IProduct) => {
                       return (
                         <ProductCard key={item.documentId} product={item} />
                       );

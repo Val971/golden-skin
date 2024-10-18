@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import ContentWrapper from './ContentWrapper';
-import { Product } from '../types';
+import { IProduct } from '../types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useProductContext } from '../_context/ProductListContext';
 import ProductCard from './ProductCard';
@@ -25,7 +25,7 @@ export default function FamousProductList() {
         </div>
       ) : (
         <div className='max-w-screen-2xl grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-7 mt-20'>
-          {famousproduct.map((product: Product, index: number) => {
+          {famousproduct.map((product: IProduct, index: number) => {
             return <ProductCard key={index} product={product} />;
           })}
         </div>

@@ -67,7 +67,7 @@ export const AuthProvider = ({
   const logout = () => {
     setUser(undefined);
     sessionStorage.clear();
-    router.push('/sign-in');
+    router.push('/auth/sign-in');
   };
 
   const createAccount = async (data: Register) => {

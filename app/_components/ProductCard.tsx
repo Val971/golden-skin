@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
 import { SkeletonCard } from './SkeletonCard';
-import { Product } from '../types';
+import { IProduct } from '../types';
 import { useRouter } from 'next/navigation';
 
 interface ProductCartProps {
-  product: Product;
+  product: IProduct;
 }
 export default function ProductCard({ product }: ProductCartProps) {
   const router = useRouter();
@@ -16,9 +16,7 @@ export default function ProductCard({ product }: ProductCartProps) {
           <div className='text-primary  overflow-hidden '>
             <div className='rounded-3xl'>
               <Image
-                onClick={() =>
-                  router.push(`/product-detail/${product.documentId}`)
-                }
+                onClick={() => router.push(`/shop/${product.documentId}`)}
                 className='rounded-3xl object-cover h-[10rem] lg:h-[20rem] cursor-pointer'
                 src={product.images?.url}
                 alt={product.name}
@@ -28,9 +26,7 @@ export default function ProductCard({ product }: ProductCartProps) {
               />
             </div>
             <h4
-              onClick={() =>
-                router.push(`/product-detail/${product.documentId}`)
-              }
+              onClick={() => router.push(`/shop/${product.documentId}`)}
               className='font-semibold mt-5 text-sm cursor-pointer'>
               {product.name}
             </h4>

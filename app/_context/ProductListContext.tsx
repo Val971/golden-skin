@@ -1,25 +1,18 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  SetStateAction,
-} from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import GlobalApi from '../_utils/GlobalApi';
-import { Product } from '../types';
+import { IProduct } from '../types';
 
 export interface ProductContextType {
-  products: Product[];
+  products: IProduct[];
   loading: boolean;
-  error: SetStateAction<undefined>;
-  famousproduct: Product[];
-  getProductById: (is: string) => Promise<void>;
-  productDetail: Product | undefined;
+  error: string | null;
+  famousproduct: IProduct[];
   categoriesLoading: boolean;
   categories: [];
   fetchCategories: () => Promise<void>;
   filterProductsByCategories: (filter: string) => void;
-  productFilterByCategories: Product[];
+  setError: (error: string | null) => void;
+  productFilterByCategories: IProduct[];
   selectedFilter: string;
 }
 
@@ -38,17 +31,16 @@ export const ProductProvider = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [categories, setCategories] = useState<[]>([]);
   const [productFilterByCategories, setProductFilterByCategories] = useState<
-    Product[]
+    IProduct[]
   >([]);
-  const [productDetail, setProductDetail] = useState<Product>();
-  const [famousproduct, setFamousproduct] = useState<Product[]>([]);
+  const [famousproduct, setFamousproduct] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [categoriesLoading, setCategoriesLoading] = useState<boolean>(true);
-  const [error, setError] = useState<SetStateAction<undefined>>();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem('products');
@@ -58,7 +50,7 @@ export const ProductProvider = ({
       setProducts(storedProductsList);
       setProductFilterByCategories(storedProductsList);
       setFamousproduct(
-        storedProductsList.filter((item: Product) => item.state === 'Famous')
+        storedProductsList.filter((item: IProduct) => item.state === 'Famous')
       );
       setLoading(false);
     } else {
@@ -73,8 +65,8 @@ export const ProductProvider = ({
     }
   }, []);
 
-  const filterUniqueProducts = (products: Product[]) => {
-    return products.reduce((acc: Product[], current: Product) => {
+  const filterUniqueProducts = (products: IProduct[]) => {
+    return products.reduce((acc: IProduct[], current: IProduct) => {
       if (!acc.find((item) => item.documentId === current.documentId)) {
         acc.push(current);
       }
@@ -92,10 +84,10 @@ export const ProductProvider = ({
       setProducts(uniqueProducts);
       setProductFilterByCategories(uniqueProducts);
       setFamousproduct(
-        uniqueProducts.filter((item: Product) => item.state === 'Famous')
+        uniqueProducts.filter((item: IProduct) => item.state === 'Famous')
       );
     } catch (error) {
-      setError(error as undefined);
+      setError((error as Error).message);
     } finally {
       setLoading(false);
     }
@@ -123,22 +115,11 @@ export const ProductProvider = ({
         localStorage.setItem('categories', JSON.stringify(response));
       }
       setCategories(response);
-    } catch (err) {
-      setError(err as undefined);
+    } catch (error) {
+      setError((error as Error).message);
     } finally {
       setCategoriesLoading(false);
     }
-  };
-
-  const getProductById = async (id: string) => {
-    setLoading(true);
-    GlobalApi.getProductById(id)
-      .then((resp) => {
-        setProductDetail(resp);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
   };
 
   // Fournir l'état et les fonctions au reste de l'application
@@ -148,9 +129,8 @@ export const ProductProvider = ({
         products,
         loading,
         error,
+        setError,
         famousproduct,
-        getProductById,
-        productDetail,
         categoriesLoading,
         categories,
         fetchCategories,

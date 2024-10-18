@@ -4,7 +4,7 @@ export interface Category {
   description: string;
   images: { url: string };
 }
-export interface Product {
+export interface IProduct {
   documentId: string;
   name: string;
   categories: string;

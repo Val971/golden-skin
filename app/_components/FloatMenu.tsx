@@ -15,17 +15,14 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useRouter } from 'next/navigation';
-import {
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-} from '@heroicons/react/24/outline';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import { useCartContext } from '../_context/CartContext';
 import { useAuthContext } from '../_context/AuthContext';
 import CartItemList from './CartItemList';
 
 const navigation = {
   pages: [
-    { name: 'Boutique', href: '/products' },
+    { name: 'Boutique', href: '/shop' },
     { name: 'À propos', href: '#' },
   ],
 };
@@ -110,13 +107,13 @@ export default function FloatMenu() {
           ) : (
             <>
               <button
-                onClick={() => router.push('/sign-in')}
+                onClick={() => router.push('/auth/sign-in')}
                 className='text-sm font-medium text-gray-700 hover:text-secondary'>
                 Connexion
               </button>
               <span aria-hidden='true' className='h-6 w-px bg-gray-200' />
               <button
-                onClick={() => router.push('/create-account')}
+                onClick={() => router.push('/auth/create-account')}
                 className='text-sm font-medium text-gray-700 hover:text-secondary'>
                 Inscription
               </button>
@@ -137,12 +134,12 @@ export default function FloatMenu() {
         </div>
 
         {/* Search */}
-        <div className='flex lg:ml-6'>
+        {/* <div className='flex lg:ml-6'>
           <a className='p-2 text-gray-400 hover:text-secondary'>
             <span className='sr-only'>Search</span>
             <MagnifyingGlassIcon aria-hidden='true' className='h-6 w-6' />
           </a>
-        </div>
+        </div> */}
 
         <Sheet>
           <SheetTrigger asChild>
@@ -160,8 +157,8 @@ export default function FloatMenu() {
               </a>
             </div>
           </SheetTrigger>
-          <SheetContent className='flex flex-col h-screen w-96'>
-            <div className='flex flex-col justify-between'>
+          <SheetContent className='flex flex-col h-screen w-96 '>
+            <div className='flex flex-col justify-between overflow-y-auto '>
               <SheetHeader>
                 <SheetTitle className='flex gap-5'>
                   <ShoppingBagIcon

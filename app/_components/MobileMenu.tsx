@@ -15,7 +15,7 @@ import { useAuthContext } from '../_context/AuthContext';
 
 const navigation = {
   pages: [
-    { name: 'Boutique', href: '/products' },
+    { name: 'Boutique', href: '/shop' },
     { name: 'À propos', href: '#' },
   ],
 };
@@ -132,14 +132,14 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
               <>
                 <div className='flow-root'>
                   <button
-                    onClick={() => router.push('/sign-in')}
+                    onClick={() => router.push('/auth/sign-in')}
                     className='-m-2 block p-2 font-medium text-gray-900'>
                     Connexion
                   </button>
                 </div>
                 <div className='flow-root'>
                   <button
-                    onClick={() => router.push('/create-account')}
+                    onClick={() => router.push('/auth/create-account')}
                     className='-m-2 block p-2 font-medium text-gray-900'>
                     Inscription
                   </button>
