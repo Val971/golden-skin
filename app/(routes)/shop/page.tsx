@@ -25,11 +25,11 @@ import { IProduct } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const subCategories = [
-  { key: 'all', name: 'Tous les produits', href: '#' },
-  { key: 'visage', name: 'Visage', href: '#' },
-  { key: 'cheveux', name: 'Cheveux', href: '#' },
-  { key: 'suppléments', name: 'Suppléments', href: '#' },
-  { key: 'cadeaux & coffrets', name: 'Cadeaux & coffrets', href: '#' },
+  { key: 'all', name: 'Tous les produits' },
+  { key: 'visage', name: 'Visage' },
+  { key: 'cheveux', name: 'Cheveux' },
+  { key: 'suppléments', name: 'Suppléments' },
+  { key: 'cadeaux & coffrets', name: 'Cadeaux & coffrets' },
 ];
 const filters = [
   {
@@ -119,9 +119,7 @@ export default function Products() {
                     <li
                       onClick={() => filterProductsByCategories(category.key)}
                       key={category.name}>
-                      <a href={category.href} className='block px-2 py-3'>
-                        {category.name}
-                      </a>
+                      <p className='block px-2 py-3'>{category.name}</p>
                     </li>
                   ))}
                 </ul>

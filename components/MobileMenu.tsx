@@ -16,7 +16,7 @@ import { Link } from 'lucide-react';
 const navigation = {
   pages: [
     { name: 'Boutique', href: '/shop' },
-    { name: 'À propos', href: '#' },
+    { name: 'À propos', href: '/about' },
   ],
 };
 
@@ -75,11 +75,11 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
           <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
             {navigation.pages.map((page) => (
               <div key={page.name} className='flow-root'>
-                <a
+                <Link
                   href={page.href}
                   className='-m-2 block p-2 font-medium text-gray-900'>
                   {page.name}
-                </a>
+                </Link>
               </div>
             ))}
           </div>

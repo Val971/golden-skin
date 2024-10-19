@@ -28,7 +28,7 @@ export default function CartItemList(props: CartItemListProps) {
     setSubTotal(total);
   }, [cartItemList]);
   return (
-    <div className='overflow-y-auto'>
+    <div className='overflow-y-auto h-screen'>
       <div className='flex-1 overflow-y-auto mt-4 space-y-4 h-[70%]'>
         {cartItemList.length > 0 ? (
           cartItemList.map((item, index) => {

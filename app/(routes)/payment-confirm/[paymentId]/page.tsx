@@ -16,23 +16,21 @@ export default function PaymentConfirm() {
           </h2>
           <p className='text-gray-500 dark:text-gray-400 mb-6 md:mb-8'>
             Votre commande{' '}
-            <a
-              href='#'
-              className='font-medium text-gray-900 dark:text-white hover:underline'>
+            <p className='font-medium text-gray-900 dark:text-white hover:underline'>
               {`#${lastOrder.id}`}
-            </a>{' '}
+            </p>{' '}
             sera traitée dans les 24 heures pendant les jours ouvrables. Nous
             vous informerons par e-mail une fois votre commande expédiée.
           </p>
           <div className='space-y-4 sm:space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800 mb-6 md:mb-8'>
-            <dl className='sm:flex items-center justify-between gap-4'>
+            <div className='sm:flex items-center justify-between gap-4'>
               <dt className='font-normal mb-1 sm:mb-0 text-gray-500 dark:text-gray-400'>
                 Date
               </dt>
               <dd className='font-medium text-gray-900 dark:text-white sm:text-end'>
                 {new Date(lastOrder.date).toLocaleDateString()}
               </dd>
-            </dl>
+            </div>
             <dl className='sm:flex items-center justify-between gap-4'>
               <dt className='font-normal mb-1 sm:mb-0 text-gray-500 dark:text-gray-400'>
                 Payment Method
