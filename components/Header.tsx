@@ -50,9 +50,9 @@ export default function Header() {
                   src='/goldenSkin.svg'
                   className='h-8 w-auto cursor-pointer'
                 />
-                <p className='self-center font-extrabold text-xl'>
+                <span className='self-center font-extrabold text-xl'>
                   Golden Skin
-                </p>
+                </span>
               </Link>
 
               {/* Flyout menus */}

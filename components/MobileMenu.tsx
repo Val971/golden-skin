@@ -11,7 +11,7 @@ import {
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useAuthContext } from '../app/_context/AuthContext';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 
 const navigation = {
   pages: [
