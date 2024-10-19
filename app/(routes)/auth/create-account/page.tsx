@@ -1,14 +1,7 @@
-'use client';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-const CreateAccountForm = dynamic(
-  () => import('@/app/_components/CreateAccountForm'),
-  {
-    ssr: false,
-  }
-);
+import CreateAccountForm from '@/components/CreateAccountForm';
 
 export default function CreateAccount() {
   return (

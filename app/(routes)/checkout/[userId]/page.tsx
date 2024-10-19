@@ -1,10 +1,10 @@
 'use client';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import CheckoutSection from '../../../_components/CheckoutSection';
+import CheckoutSection from '../../../../components/CheckoutSection';
 import convertToSubcurrency from '../../../_utils/convertToCurrency';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCartContext } from '@/app/_context/CartContext';
 
@@ -15,20 +15,19 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHER_KEY!);
 export default function App() {
   const { cart } = useCartContext();
   const [subTotal, setSubTotal] = useState(0);
-  const router = useRouter();
   const Shipping = 8;
 
   useEffect(() => {
     const jwt = sessionStorage.getItem('jwt');
     if (!jwt) {
-      router.push('/');
+      redirect('/');
     }
     let total = 0;
     cart.forEach((item) => {
       total = total + item.quantity * item.price;
     });
     setSubTotal(total);
-  }, [cart, router]);
+  }, [cart]);
 
   const options = {
     //clientSecret: '{{CLIENT_SECRET}}',

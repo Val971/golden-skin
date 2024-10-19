@@ -72,7 +72,6 @@ export default function ProductDetail({
       addToCart(selectedProduct);
     }
   };
-  console.log('3');
   return (
     <>
       {loading || !product ? (

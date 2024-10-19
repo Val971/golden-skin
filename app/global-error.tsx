@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-export default function ProductDetailError({
+export default function AppError({
   reset,
 }: {
   error: Error & { digest?: string };

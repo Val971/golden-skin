@@ -1,9 +1,10 @@
+'use client';
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader } from 'lucide-react';
 import { useAuthContext } from '@/app/_context/AuthContext';
-import { Register } from '../types';
+import { Register } from '../app/types';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 

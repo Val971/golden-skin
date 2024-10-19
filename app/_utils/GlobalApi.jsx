@@ -33,6 +33,12 @@ const getProductById = (id) =>
   axiosClient.get('/products/' + id + '?populate=*').then((resp) => {
     return resp.data.data;
   });
+const getFamousProduct = () =>
+  axiosClient
+    .get('/products?filters[state][$eq]=Famous&populate=images')
+    .then((resp) => {
+      return resp.data.data;
+    });
 
 const registerUser = (username, email, password) =>
   axiosClient
@@ -99,4 +105,5 @@ export default {
   getHomePageHeroDatas,
   getHomePageSectionsDatas,
   updateStock,
+  getFamousProduct,
 };

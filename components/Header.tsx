@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+
 const MobileMenu = dynamic(() => import('./MobileMenu'), {
   ssr: false,
 });
@@ -15,7 +15,6 @@ const FloatMenu = dynamic(() => import('./FloatMenu'), {
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <div className='bg-white'>
@@ -40,9 +39,9 @@ export default function Header() {
               </button>
 
               {/* Logo */}
-              <div
-                className='ml-4 flex justify-center gap-4 lg:ml-0 cursor-pointer'
-                onClick={() => router.push('/')}>
+              <Link
+                href={'/'}
+                className='ml-4 flex justify-center gap-4 lg:ml-0 cursor-pointer'>
                 <span className='sr-only'>Golden Skin</span>
                 <Image
                   alt='logo'
@@ -54,7 +53,7 @@ export default function Header() {
                 <p className='self-center font-extrabold text-xl'>
                   Golden Skin
                 </p>
-              </div>
+              </Link>
 
               {/* Flyout menus */}
               <FloatMenu />

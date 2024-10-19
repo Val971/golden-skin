@@ -4,8 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { AuthContext, AuthContextType } from '../_context/AuthContext';
-import { LogIn } from '../types';
+import { AuthContext, AuthContextType } from '../app/_context/AuthContext';
+import { LogIn } from '../app/types';
 import Link from 'next/link';
 
 export default function SignInForm() {

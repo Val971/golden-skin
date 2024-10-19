@@ -1,16 +1,16 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import GlobalApi from '../_utils/GlobalApi';
-import { LogIn, Register, User } from '../types';
+import { LogIn, Register, IUser } from '../types';
 
 export interface AuthContextType {
-  user?: User;
+  user?: IUser;
   login: (userData: LogIn) => Promise<void>;
   createAccount: (userData: Register) => Promise<void>;
   logout: () => void;
-  setUser: (user: User) => void;
+  setUser: (user: IUser) => void;
   setError: (value: boolean) => void;
   loading: boolean;
   error: boolean;
@@ -32,11 +32,10 @@ export const AuthProvider = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [user, setUser] = useState<User | undefined>();
+  const [user, setUser] = useState<IUser | undefined>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const router = useRouter();
 
   const login = async (data: LogIn) => {
     setLoading(true);
@@ -48,12 +47,12 @@ export const AuthProvider = ({
         const user = {
           email: resp.user.email,
           username: resp.user.username,
-          id: resp.user.documentId,
+          documentId: resp.user.documentId,
         };
         setUser(user);
         toast('Votre connexion a réussi.');
-        router.push('/');
         setLoading(false);
+        redirect('/');
       },
       () => {
         setLoading(false);
@@ -67,7 +66,7 @@ export const AuthProvider = ({
   const logout = () => {
     setUser(undefined);
     sessionStorage.clear();
-    router.push('/auth/sign-in');
+    redirect('/auth/sign-in');
   };
 
   const createAccount = async (data: Register) => {
@@ -78,8 +77,8 @@ export const AuthProvider = ({
         sessionStorage.setItem('user', JSON.stringify(resp.user));
         sessionStorage.setItem('jwt', JSON.stringify(resp.jwt));
         toast('Votre compte a bien été créer.');
-        router.push('/');
         setLoading(false);
+        redirect('/');
       },
       () => {
         setLoading(false);
@@ -100,7 +99,7 @@ export const AuthProvider = ({
       const userData = {
         email: data.email,
         username: data.username,
-        id: data.documentId,
+        documentId: data.documentId,
       };
       setUser(userData);
     }

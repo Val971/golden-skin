@@ -14,22 +14,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { useRouter } from 'next/navigation';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
-import { useCartContext } from '../_context/CartContext';
-import { useAuthContext } from '../_context/AuthContext';
+import { useCartContext } from '../app/_context/CartContext';
+import { useAuthContext } from '../app/_context/AuthContext';
 import CartItemList from './CartItemList';
+import Link from 'next/link';
 
 const navigation = {
   pages: [
     { name: 'Boutique', href: '/shop' },
-    { name: 'À propos', href: '#' },
+    { name: 'À propos', href: '/about' },
   ],
 };
 export default function FloatMenu() {
   const { cart, totalCartItem } = useCartContext();
   const { user, logout } = useAuthContext();
-  const router = useRouter();
   const jwt = sessionStorage.getItem('jwt');
 
   return (
@@ -37,12 +36,12 @@ export default function FloatMenu() {
       <PopoverGroup className='hidden lg:ml-8 lg:block lg:self-stretch'>
         <div className='flex h-full space-x-8'>
           {navigation.pages.map((page) => (
-            <button
-              onClick={() => router.push(page.href)}
+            <Link
+              href={page.href}
               key={page.name}
               className='flex items-center text-sm font-medium text-gray-700 hover:text-secondary'>
               {page.name}
-            </button>
+            </Link>
           ))}
         </div>
       </PopoverGroup>
@@ -106,17 +105,17 @@ export default function FloatMenu() {
             </>
           ) : (
             <>
-              <button
-                onClick={() => router.push('/auth/sign-in')}
+              <Link
+                href={'/auth/sign-in'}
                 className='text-sm font-medium text-gray-700 hover:text-secondary'>
                 Connexion
-              </button>
+              </Link>
               <span aria-hidden='true' className='h-6 w-px bg-gray-200' />
-              <button
-                onClick={() => router.push('/auth/create-account')}
+              <Link
+                href={'/auth/create-account'}
                 className='text-sm font-medium text-gray-700 hover:text-secondary'>
                 Inscription
-              </button>
+              </Link>
             </>
           )}
         </div>
@@ -158,7 +157,7 @@ export default function FloatMenu() {
             </div>
           </SheetTrigger>
           <SheetContent className='flex flex-col h-screen w-96 '>
-            <div className='flex flex-col justify-between overflow-y-auto '>
+            <div className='flex flex-col justify-between  '>
               <SheetHeader>
                 <SheetTitle className='flex gap-5'>
                   <ShoppingBagIcon

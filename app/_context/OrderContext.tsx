@@ -1,16 +1,12 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from 'react';
-import { CartItem, Order } from '../types';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { CartItem, IOrder, IOrderResponse } from '../types';
 import GlobalApi from '../_utils/GlobalApi';
+import { toast } from 'sonner';
 
 type OrderContextType = {
-  orders: Order[];
-  addOrder: (order: Order) => void;
+  lastOrder: IOrder | undefined;
+  addOrder: (order: IOrder) => Promise<IOrderResponse>;
+  updateStocks: (order: CartItem[]) => void;
   clearOrders: () => void;
 };
 
@@ -27,44 +23,42 @@ export const useOrderContext = () => {
 
 // Fournisseur du contexte
 export const OrderProvider = ({ children }: { children: ReactNode }) => {
-  const [orders, setOrders] = useState<Order[]>(() => {
-    const storedOrders = localStorage.getItem('orders');
-    return storedOrders ? JSON.parse(storedOrders) : [];
-  });
+  const [lastOrder, setLastOrder] = useState<IOrder>();
 
   // Ajouter une commande
-  const addOrder = (order: Order) => {
-    setOrders((prevOrders) => [...prevOrders, order]);
+  const addOrder = async (order: IOrder): Promise<IOrderResponse> => {
     const newOrder = {
-      username: order.name,
+      name: order.name,
       userId: order.userId,
       email: order.email,
       phone: order.phone,
       address: order.address,
-      totalOrderAmount: order.totalAmount,
+      totalAmount: order.totalAmount,
       paymentId: order.id,
       products: order.products.map((item) => item.documentId),
     };
-    GlobalApi.createOrder({ ...newOrder }).then(
-      (resp) => {
-        console.log(resp);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-    updateStocks(order.products);
+
+    try {
+      const response = await GlobalApi.createOrder({ ...newOrder });
+      setLastOrder(response);
+      return response;
+    } catch (err) {
+      const error = err as IOrderResponse;
+      return error;
+    }
   };
 
   const updateStocks = (products: CartItem[]) => {
     products.map((item) => {
       const newStock = item.sizes.stock - item.quantity;
       GlobalApi.updateStock(item.sizes.documentId, newStock).then(
-        (resp) => {
-          console.log(resp);
+        () => {
+          toast('Votre commande a bien été finalisée.');
         },
-        (err) => {
-          console.log(err);
+        () => {
+          throw new Error(
+            'Une erreur est survenue lors de la mise a jour des stock.'
+          );
         }
       );
     });
@@ -72,13 +66,12 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
 
   // Effacer toutes les commandes
   const clearOrders = () => {
-    setOrders([]);
+    setLastOrder(undefined);
   };
-  useEffect(() => {
-    localStorage.setItem('orders', JSON.stringify(orders));
-  }, [orders]);
+
   return (
-    <OrderContext.Provider value={{ orders, addOrder, clearOrders }}>
+    <OrderContext.Provider
+      value={{ updateStocks, lastOrder, clearOrders, addOrder }}>
       {children}
     </OrderContext.Provider>
   );

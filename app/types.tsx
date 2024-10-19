@@ -1,4 +1,4 @@
-export interface Category {
+export interface ICategory {
   id: number;
   name: string;
   description: string;
@@ -35,8 +35,8 @@ export interface Size {
   stock: number;
 }
 
-export type User = {
-  id: string;
+export type IUser = {
+  documentId: string;
   username: string;
   email: string;
 };
@@ -51,7 +51,7 @@ export type Register = {
   username: string;
 };
 
-export type Order = {
+export type IOrder = {
   id: string;
   userId: string;
   products: CartItem[];
@@ -62,7 +62,13 @@ export type Order = {
   email: string;
   address: string;
 };
-
+export interface IOrderResponse {
+  id: number;
+  productId: number;
+  quantity: number;
+  userId: number;
+  status: number;
+}
 export type Hero = {
   id: string;
   title: string;
@@ -70,7 +76,7 @@ export type Hero = {
   image: { url: string };
   button: Button;
 };
-export type Section = {
+export type ISection = {
   id: string;
   title: string;
   description: string;

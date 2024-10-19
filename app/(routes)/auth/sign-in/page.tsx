@@ -1,10 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-const SignInForm = dynamic(() => import('@/app/_components/SignInForm'), {
-  ssr: false,
-});
+import SignInForm from '@/components/SignInForm';
 
 const SignIn = () => {
   return (

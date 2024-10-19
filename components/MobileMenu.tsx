@@ -10,8 +10,8 @@ import {
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useAuthContext } from '../_context/AuthContext';
+import { useAuthContext } from '../app/_context/AuthContext';
+import { Link } from 'lucide-react';
 
 const navigation = {
   pages: [
@@ -26,7 +26,6 @@ interface MobileMenuProps {
 }
 export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
   const { user, logout } = useAuthContext();
-  const router = useRouter();
   const jwt = sessionStorage.getItem('jwt');
   return (
     <Dialog open={open} onClose={setOpen} className='relative z-40 lg:hidden'>
@@ -38,7 +37,7 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
       <div className='fixed inset-0 z-40 flex'>
         <DialogPanel
           transition
-          className='relative flex w-full max-w-xs transform flex-col overflow-y-auto bg-white pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:-translate-x-full'>
+          className='relative flex w-full max-w-xs transform flex-col  bg-white pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:-translate-x-full'>
           <div className='flex px-4 pb-2 pt-5'>
             <button
               type='button'
@@ -54,9 +53,9 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
           <TabGroup className='mt-2'>
             <div className='border-b border-gray-200'>
               <TabList className='flex  mb-4 space-x-8 px-4'>
-                <div
-                  className='ml-4 flex gap-4 lg:ml-0 cursor-pointer'
-                  onClick={() => router.push('/')}>
+                <Link
+                  href='/'
+                  className='ml-4 flex gap-4 lg:ml-0 cursor-pointer'>
                   <span className='sr-only'>Golden Skin</span>
                   <Image
                     alt='logo'
@@ -68,7 +67,7 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
                   <p className='self-center font-extrabold text-xl'>
                     Golden Skin
                   </p>
-                </div>
+                </Link>
               </TabList>
             </div>
           </TabGroup>
@@ -131,18 +130,18 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
             ) : (
               <>
                 <div className='flow-root'>
-                  <button
-                    onClick={() => router.push('/auth/sign-in')}
+                  <Link
+                    href={'/auth/sign-in'}
                     className='-m-2 block p-2 font-medium text-gray-900'>
                     Connexion
-                  </button>
+                  </Link>
                 </div>
                 <div className='flow-root'>
-                  <button
-                    onClick={() => router.push('/auth/create-account')}
+                  <Link
+                    href='/auth/create-account'
                     className='-m-2 block p-2 font-medium text-gray-900'>
                     Inscription
-                  </button>
+                  </Link>
                 </div>
               </>
             )}

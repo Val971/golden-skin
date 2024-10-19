@@ -9,15 +9,15 @@ import PhoneInput from 'react-phone-input-2';
 import { useForm, Controller } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import convertToSubcurrency from '../_utils/convertToCurrency';
+import convertToSubcurrency from '../app/_utils/convertToCurrency';
 import { Input } from '@/components/ui/input';
 import { CartItem, Checkout } from '@/app/types';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useOrderContext } from '@/app/_context/OrderContext';
-import { toast } from 'sonner';
 import { useCartContext } from '@/app/_context/CartContext';
 import { useAuthContext } from '@/app/_context/AuthContext';
+import Link from 'next/link';
+import { useOrderContext } from '@/app/_context/OrderContext';
 
 interface checkoutSectionProps {
   subTotal: number;
@@ -42,8 +42,8 @@ export default function CheckoutSection({
   const [clientSecret, setClientSecret] = useState('');
   const [loader, setLoader] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { addOrder } = useOrderContext();
   const { clearCart } = useCartContext();
+  const { addOrder, updateStocks } = useOrderContext();
   const { user } = useAuthContext();
   const router = useRouter();
 
@@ -94,9 +94,9 @@ export default function CheckoutSection({
 
       if (error && error.message) {
         setErrorMessage(error.message);
-        toast('Une erreur est survenue lors du paiement.');
+        throw new Error('Une erreur est survenue lors du paiement.');
       } else {
-        addOrder({
+        const newOrder = {
           id: paymentIntent ? paymentIntent.id : '',
           totalAmount: subTotal + shippingFees,
           date: new Date(),
@@ -104,18 +104,24 @@ export default function CheckoutSection({
           phone: data.phoneNumber,
           email: data.email,
           name: data.username,
-          userId: user ? user?.id : '',
+          userId: user ? user?.documentId : '',
           address: `${data.address} ${data.zip} ${data.selectedCountries}`,
-        });
-        clearCart();
-        router.push(
-          `/payment-confirm/${paymentIntent?.id}?amount=${
-            subTotal + shippingFees
-          }`
-        );
+        };
+        const response = await addOrder(newOrder);
+        if (response.status === 400) {
+          throw new Error('Une erreur est survenue lors du paiement.');
+        } else {
+          clearCart();
+          router.push(
+            `/payment-confirm/${paymentIntent?.id}?amount=${
+              subTotal + shippingFees
+            }`
+          );
+          updateStocks(cartItemList);
+        }
       }
     } catch {
-      toast('Une erreur inattendue est survenue.');
+      throw new Error('Une erreur inattendue est survenue.');
     } finally {
       setLoader(false);
     }
@@ -123,8 +129,8 @@ export default function CheckoutSection({
   return (
     <div className=' items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32'>
       <div className='flex mb-14 gap-5'>
-        <div
-          onClick={() => router.push('/')}
+        <Link
+          href={'/'}
           className='text-2xl flex gap-5 font-bold text-gray-800 cursor-pointer'>
           <Image
             alt='logo'
@@ -134,7 +140,7 @@ export default function CheckoutSection({
             className='h-8 w-auto'
           />{' '}
           Golden Skin
-        </div>
+        </Link>
         <div className='mt-4 py-2 text-xs sm:mt-0 sm:ml-20 sm:text-base'>
           <div className='relative'>
             <ul className='relative flex w-full items-center justify-between space-x-2 sm:space-x-4'>
@@ -279,6 +285,7 @@ export default function CheckoutSection({
             Complétez votre commande en fournissant vos informations de
             paiement.
           </p>
+          {errorMessage && <div className='text-red-600'>{errorMessage}</div>}
           <div className=''>
             <label
               htmlFor='name'
@@ -519,7 +526,6 @@ export default function CheckoutSection({
               'Passer une commande'
             )}
           </button>
-          {errorMessage && <div>{errorMessage}</div>}
         </form>
       </div>
     </div>

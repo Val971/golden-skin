@@ -1,17 +1,22 @@
-'use client';
 import React from 'react';
 import ContentWrapper from './ContentWrapper';
-import { IProduct } from '../types';
+import { IProduct } from '../app/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useProductContext } from '../_context/ProductListContext';
-import ProductCard from './ProductCard';
+import ProductCard from './products/ProductCard';
 
-export default function FamousProductList() {
-  const { famousproduct, loading } = useProductContext();
-
+interface FamousProductList {
+  products: IProduct[];
+}
+export default function FamousProductList({ products }: FamousProductList) {
   return (
     <ContentWrapper>
-      {loading ? ( // Display skeletons if loading
+      {products ? (
+        <div className='max-w-screen-2xl grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-7 mt-20'>
+          {products.map((product: IProduct, index: number) => {
+            return <ProductCard key={index} product={product} />;
+          })}
+        </div>
+      ) : (
         <div className='max-w-screen-2xl grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-7 mt-20'>
           {Array.from({ length: 4 }).map((_, index) => (
             <div key={index} className='flex flex-col space-y-3 '>
@@ -22,12 +27,6 @@ export default function FamousProductList() {
               </div>
             </div>
           ))}
-        </div>
-      ) : (
-        <div className='max-w-screen-2xl grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-7 mt-20'>
-          {famousproduct.map((product: IProduct, index: number) => {
-            return <ProductCard key={index} product={product} />;
-          })}
         </div>
       )}
     </ContentWrapper>

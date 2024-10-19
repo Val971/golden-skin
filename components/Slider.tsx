@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Carousel, CarouselContent } from '../../components/ui/carousel';
+import { Carousel, CarouselContent } from './ui/carousel';
 
 interface MyComponentProps {
   children: ReactNode;

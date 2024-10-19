@@ -1,16 +1,15 @@
 import React from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Footer() {
-  const router = useRouter();
   return (
     <footer className='px-4 divide-y dark:bg-gray-100 dark:text-gray-800'>
       <div className='container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0'>
         <div className='lg:w-1/3'>
-          <button
+          <Link
+            href={'/'}
             rel='noopener noreferrer'
-            onClick={() => router.push('/')}
             className='flex justify-center space-x-3 lg:justify-start'>
             <div className='flex items-center justify-center w-12 h-12 rounded-full dark:bg-violet-600'>
               <Image
@@ -24,7 +23,7 @@ export default function Footer() {
             <span className='self-center text-2xl font-semibold'>
               Golden Skin
             </span>
-          </button>
+          </Link>
         </div>
         <div className='grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4'>
           <div className='space-y-3'>

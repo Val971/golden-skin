@@ -1,25 +1,15 @@
 'use client';
 import { useOrderContext } from '@/app/_context/OrderContext';
-import { Order } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import React from 'react';
 
-export default function PaymentConfirm({
-  params,
-}: {
-  params: { paymentId: string };
-}) {
-  const [order, setOrder] = useState<Order | undefined>(undefined);
-  const { orders } = useOrderContext();
-  const router = useRouter();
-  useEffect(() => {
-    setOrder(orders.find((ord) => ord.id === params.paymentId));
-  }, [router, orders, params]);
+export default function PaymentConfirm() {
+  const { lastOrder } = useOrderContext();
 
   return (
     <section className='bg-white py-8 antialiased dark:bg-gray-900 md:py-16'>
-      {order ? (
+      {lastOrder ? (
         <div className='mx-auto max-w-2xl px-4 2xl:px-0'>
           <h2 className='text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl mb-2'>
             Merci pour votre commande !
@@ -29,7 +19,7 @@ export default function PaymentConfirm({
             <a
               href='#'
               className='font-medium text-gray-900 dark:text-white hover:underline'>
-              {`#${order.id}`}
+              {`#${lastOrder.id}`}
             </a>{' '}
             sera traitée dans les 24 heures pendant les jours ouvrables. Nous
             vous informerons par e-mail une fois votre commande expédiée.
@@ -40,7 +30,7 @@ export default function PaymentConfirm({
                 Date
               </dt>
               <dd className='font-medium text-gray-900 dark:text-white sm:text-end'>
-                {new Date(order.date).toLocaleDateString()}
+                {new Date(lastOrder.date).toLocaleDateString()}
               </dd>
             </dl>
             <dl className='sm:flex items-center justify-between gap-4'>
@@ -56,7 +46,7 @@ export default function PaymentConfirm({
                 Name
               </dt>
               <dd className='font-medium text-gray-900 dark:text-white sm:text-end'>
-                {order.name}
+                {lastOrder.name}
               </dd>
             </dl>
             <dl className='sm:flex items-center justify-between gap-4'>
@@ -64,7 +54,7 @@ export default function PaymentConfirm({
                 Address
               </dt>
               <dd className='font-medium text-gray-900 dark:text-white sm:text-end'>
-                {order.address}
+                {lastOrder.address}
               </dd>
             </dl>
             <dl className='sm:flex items-center justify-between gap-4'>
@@ -72,16 +62,16 @@ export default function PaymentConfirm({
                 Phone
               </dt>
               <dd className='font-medium text-gray-900 dark:text-white sm:text-end'>
-                {order.phone}
+                {lastOrder.phone}
               </dd>
             </dl>
           </div>
           <div className='flex items-center space-x-4'>
-            <div
-              onClick={() => router.push('/')}
+            <Link
+              href={'/'}
               className='py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 cursor-pointer'>
               {`Retour à l'accueil`}
-            </div>
+            </Link>
           </div>
         </div>
       ) : (

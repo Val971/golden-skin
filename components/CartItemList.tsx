@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { CartItem } from '../types';
+import { CartItem } from '../app/types';
 import { SheetClose, SheetFooter } from '@/components/ui/sheet';
 import { Trash2 } from 'lucide-react';
-import { useCartContext } from '../_context/CartContext';
-import { useAuthContext } from '../_context/AuthContext';
+import { useCartContext } from '../app/_context/CartContext';
+import { useAuthContext } from '../app/_context/AuthContext';
 
 export interface CartItemListProps {
   cartItemList: CartItem[];
@@ -28,7 +28,7 @@ export default function CartItemList(props: CartItemListProps) {
     setSubTotal(total);
   }, [cartItemList]);
   return (
-    <>
+    <div className='overflow-y-auto'>
       <div className='flex-1 overflow-y-auto mt-4 space-y-4 h-[70%]'>
         {cartItemList.length > 0 ? (
           cartItemList.map((item, index) => {
@@ -110,7 +110,7 @@ export default function CartItemList(props: CartItemListProps) {
             <button
               disabled={cartItemList.length == 0}
               onClick={() =>
-                router.push(jwt ? `/checkout/${user?.id}` : '/auth/sign-in')
+                router.push(jwt ? `/checkout/${user?.documentId}` : '/sign-in')
               }
               className={`${
                 cartItemList.length == 0
@@ -122,6 +122,6 @@ export default function CartItemList(props: CartItemListProps) {
           </div>
         </SheetClose>
       </SheetFooter>
-    </>
+    </div>
   );
 }

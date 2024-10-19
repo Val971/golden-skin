@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
-import { Category } from '../types';
+import { ICategory } from '../app/types';
 
 interface CategoryCardProps {
-  category: Category;
+  category: ICategory;
 }
 export default function CategoryCard({ category }: CategoryCardProps) {
   return (
