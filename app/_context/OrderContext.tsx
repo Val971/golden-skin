@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { CartItem, IOrder, IOrderResponse } from '../types';
-import GlobalApi from '../_utils/GlobalApi';
+import GlobalApi from '../api/GlobalApi';
 import { toast } from 'sonner';
 
 type OrderContextType = {

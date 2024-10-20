@@ -2,7 +2,7 @@
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import GlobalApi from '../_utils/GlobalApi';
+import GlobalApi from '../api/GlobalApi';
 import { LogIn, Register, IUser } from '../types';
 
 export interface AuthContextType {

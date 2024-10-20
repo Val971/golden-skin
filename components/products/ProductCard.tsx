@@ -9,9 +9,9 @@ interface ProductCartProps {
 }
 export default function ProductCard({ product }: ProductCartProps) {
   return (
-    <div key={product.documentId}>
+    <div>
       {product ? (
-        <div key={product.documentId}>
+        <div>
           <div className='text-primary  overflow-hidden '>
             <Link href={`/shop/${product.documentId}`} className='rounded-3xl'>
               <Image

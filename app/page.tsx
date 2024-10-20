@@ -4,7 +4,8 @@ import Categories from '../components/Categories';
 import FamousProductList from '../components/FamousProductList';
 import Hero from '../components/Hero';
 import Section from '../components/Section';
-import GlobalApi from './_utils/GlobalApi';
+import GlobalApi from './api/GlobalApi';
+import { filterUniqueProducts } from './_utils/filter';
 
 export const metadata: Metadata = {
   title: 'GoldenSkin Ecommerce',
@@ -22,7 +23,9 @@ const Home = async () => {
       <Hero heroDatas={heroDatasResponse} />
       <Categories categories={categoriesDatasResonse} />
       <Banner />
-      <FamousProductList products={famousProductsDatasResonse} />
+      <FamousProductList
+        products={filterUniqueProducts(famousProductsDatasResonse)}
+      />
       <Section datas={sectionsDatasResonse} />
     </div>
   );

@@ -119,7 +119,7 @@ export default function FloatMenu() {
             </>
           )}
         </div>
-
+        {/* 
         <div className='hidden lg:ml-8 lg:flex'>
           <a className='flex items-center text-gray-700 hover:text-secondary'>
             <img
@@ -130,7 +130,7 @@ export default function FloatMenu() {
             <span className='ml-3 block text-sm font-medium'>CAD</span>
             <span className='sr-only'>, change currency</span>
           </a>
-        </div>
+        </div> */}
 
         {/* Search */}
         {/* <div className='flex lg:ml-6'>

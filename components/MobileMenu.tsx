@@ -146,7 +146,7 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
               </>
             )}
           </div>
-
+          {/* 
           <div className='border-t border-gray-200 px-4 py-6'>
             <a className='-m-2 flex items-center p-2'>
               <Image
@@ -159,7 +159,7 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
               </span>
               <span className='sr-only'>, change currency</span>
             </a>
-          </div>
+          </div> */}
         </DialogPanel>
       </div>
     </Dialog>

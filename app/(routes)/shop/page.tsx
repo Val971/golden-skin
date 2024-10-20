@@ -74,7 +74,6 @@ export default function Products() {
     selectedFilter,
     filterProductsByCategories,
     productFilterByCategories,
-    loading,
   } = useProductContext();
 
   useEffect(() => {
@@ -301,15 +300,25 @@ export default function Products() {
 
               {/* Product grid */}
               <div className='lg:col-span-3'>
-                {loading ? (
-                  <Skeleton />
-                ) : (
+                {productFilterByCategories ? (
                   <div className='grid 2xl:grid-cols-4  xl:grid-cols-3 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
                     {productFilterByCategories.map((item: IProduct) => {
                       return (
                         <ProductCard key={item.documentId} product={item} />
                       );
                     })}
+                  </div>
+                ) : (
+                  <div className='grid 2xl:grid-cols-4  xl:grid-cols-3 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <div key={index} className='flex flex-col space-y-3 '>
+                        <Skeleton className=' h-[10rem] lg:h-[20rem] lg:w-[250px] rounded-xl' />
+                        <div className='space-y-2'>
+                          <Skeleton className='h-4 lg:w-[250px]' />
+                          <Skeleton className='h-4 lg:w-[200px]' />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { filterUniqueProducts } from '../_utils/filter';
 
 const apiKey = process.env.NEXT_PUBLIC_REST_API_KEY;
 const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api`;
@@ -54,6 +55,12 @@ const getAllProducts = () =>
   axiosClient.get('/products?populate=*').then((resp) => {
     return resp.data.data;
   });
+const getSearchProducts = (query) =>
+  axiosClient
+    .get(`/products?filters[name][$containsi]=${query}&populate=*`)
+    .then((resp) => {
+      return filterUniqueProducts(resp.data.data);
+    });
 const signIn = (data) =>
   axiosClient
     .post('/auth/local', {
@@ -106,4 +113,5 @@ export default {
   getHomePageSectionsDatas,
   updateStock,
   getFamousProduct,
+  getSearchProducts,
 };

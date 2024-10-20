@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import GlobalApi from '../_utils/GlobalApi';
+import GlobalApi from '../api/GlobalApi';
 import { IProduct } from '../types';
+import { filterUniqueProducts } from '../_utils/filter';
 
 export interface ProductContextType {
   products: IProduct[];
@@ -65,20 +66,10 @@ export const ProductProvider = ({
     }
   }, []);
 
-  const filterUniqueProducts = (products: IProduct[]) => {
-    return products.reduce((acc: IProduct[], current: IProduct) => {
-      if (!acc.find((item) => item.documentId === current.documentId)) {
-        acc.push(current);
-      }
-      return acc;
-    }, []);
-  };
   const fetchProducts = async () => {
     try {
       const response = await GlobalApi.getAllProducts();
-
       const uniqueProducts = filterUniqueProducts(response);
-
       localStorage.setItem('products', JSON.stringify(uniqueProducts));
 
       setProducts(uniqueProducts);

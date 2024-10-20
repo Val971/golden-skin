@@ -3,22 +3,45 @@ import React from 'react';
 
 export default function NotFound() {
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center px-4'>
-      <div className='max-w-lg mx-auto'>
-        <h1 className='text-6xl font-bold text-gray-800 mb-4'>404</h1>
-        <h2 className='text-2xl font-semibold text-gray-700 mb-6'>
-          {`Oups ! Cette page n'existe pas.`}
-        </h2>
-        <p className='text-gray-600 mb-8'>
-          {` Nous n'avons pas pu trouver le produit que vous recherchez. Il a peut-être été
-        supprimé ou n'a jamais existé.`}
-        </p>
-        <Link href={'/'}>
-          <p className='px-6 py-3 bg-primary text-white font-semibold rounded-md hover:bg-secondary transition duration-300 ease-in-out'>
-            {`Retour à la page d'accueil`}
+    <section className='bg-white  '>
+      <div className='container flex items-center min-h-screen px-6 py-12 mx-auto'>
+        <div>
+          <p className='text-sm font-bold text-red-600 '>404 error</p>
+          <h1 className='mt-3 text-2xl font-semibold text-gray-800  md:text-3xl'>
+            Nous ne trouvons pas cette page
+          </h1>
+          <p className='mt-4 text-gray-500'>
+            Désolé, la page que vous recherchez n&aposexiste pas ou a été
+            déplacée.
           </p>
-        </Link>
+
+          <div className='flex items-center mt-6 gap-x-3'>
+            <button className='flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto  hover:bg-gray-100'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke-width='1.5'
+                stroke='currentColor'
+                className='w-5 h-5 rtl:rotate-180'>
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18'
+                />
+              </svg>
+
+              <span>Retour</span>
+            </button>
+
+            <Link
+              href={'/'}
+              className='w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-primary rounded-lg shrink-0 sm:w-auto hover:bg-blue-600'>
+              Aller á la page d&aposaccueil
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
