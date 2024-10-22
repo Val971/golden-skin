@@ -12,6 +12,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useAuthContext } from '../app/_context/AuthContext';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navigation = {
   pages: [
@@ -26,6 +27,7 @@ interface MobileMenuProps {
 }
 export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
   const { user, logout } = useAuthContext();
+  const params = usePathname();
   const jwt = sessionStorage.getItem('jwt');
   return (
     <Dialog open={open} onClose={setOpen} className='relative z-40 lg:hidden'>
@@ -77,7 +79,9 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
               <div key={page.name} className='flow-root'>
                 <Link
                   href={page.href}
-                  className='-m-2 block p-2 font-medium text-gray-900'>
+                  className={`-m-2 block p-2 font-medium  ${
+                    params === page.href ? 'text-secondary' : 'text-gray-900'
+                  }`}>
                   {page.name}
                 </Link>
               </div>

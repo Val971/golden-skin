@@ -23,6 +23,7 @@ import { useProductContext } from '@/app/_context/ProductListContext';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useRouter } from 'next/navigation';
 
 const subCategories = [
   { key: 'all', name: 'Tous les produits' },
@@ -69,6 +70,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 export default function Products() {
+  const router = useRouter();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const {
     selectedFilter,
@@ -80,6 +82,17 @@ export default function Products() {
     filterProductsByCategories('all');
   }, []);
 
+  useEffect(() => {
+    // Prefetch individual product pages after products are fetched
+    productFilterByCategories.forEach((product) => {
+      router.prefetch(`/shop/${product.documentId}`);
+    });
+  }, [productFilterByCategories]);
+
+  const handlerQuery = (key: string) => {
+    router.push(`?query=${key}`);
+    filterProductsByCategories(key);
+  };
   return (
     <div>
       <div>
@@ -237,7 +250,7 @@ export default function Products() {
                   className='space-y-4 border-b border-gray-200 pb-6 text-sm font-medium '>
                   {subCategories.map((category) => (
                     <li
-                      onClick={() => filterProductsByCategories(category.key)}
+                      onClick={() => handlerQuery(category.key)}
                       key={category.name}>
                       <p
                         className={`cursor-pointer ${

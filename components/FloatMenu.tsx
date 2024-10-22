@@ -19,6 +19,7 @@ import { useCartContext } from '../app/_context/CartContext';
 import { useAuthContext } from '../app/_context/AuthContext';
 import CartItemList from './CartItemList';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navigation = {
   pages: [
@@ -29,6 +30,7 @@ const navigation = {
 export default function FloatMenu() {
   const { cart, totalCartItem } = useCartContext();
   const { user, logout } = useAuthContext();
+  const params = usePathname();
   const jwt = sessionStorage.getItem('jwt');
 
   return (
@@ -39,7 +41,9 @@ export default function FloatMenu() {
             <Link
               href={page.href}
               key={page.name}
-              className='flex items-center text-sm font-medium text-gray-700 hover:text-secondary'>
+              className={`flex items-center text-sm font-medium  hover:text-secondary ${
+                params === page.href ? 'text-secondary' : 'text-gray-700'
+              }`}>
               {page.name}
             </Link>
           ))}
