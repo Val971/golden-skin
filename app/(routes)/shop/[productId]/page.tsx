@@ -4,10 +4,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import React, { useEffect, useState } from 'react';
 import { Loader } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CartItem, IProduct, Size } from '@/app/types';
+import { CartItem, Size } from '@/app/types';
 import { useCartContext } from '@/app/_context/CartContext';
 import { notFound } from 'next/navigation';
 import GlobalApi from '../../../api/GlobalApi';
+import useSWR from 'swr';
 
 export default function ProductDetail({
   params,
@@ -18,78 +19,66 @@ export default function ProductDetail({
   const [productCount, setProductCount] = useState<number>(1);
   const [selectSizeId, setSelectSizeId] = useState<number>(0);
   const [productPrice, setProductPrice] = useState<number>(0);
-  const [product, setProduct] = useState<IProduct | null>(null);
-  const [notFount, setNotFound] = useState<string | null>(null);
 
+  const { data, isLoading, error } = useSWR(
+    params?.productId,
+    GlobalApi.getProductById
+  );
+
+  useEffect(() => {
+    getProductPrice(0);
+  }, [data]);
   const getProductPrice = (index: number) => {
-    if (product) {
-      const price = product.sizes[index].price;
+    if (data) {
+      const price = data.sizes[index].price;
       setSelectSizeId(index);
       setProductPrice(price);
     }
   };
-
-  useEffect(() => {
-    setNotFound(null);
-    const fetchProduct = async () => {
-      GlobalApi.getProductById(params?.productId)
-        .then((res) => {
-          setProduct(res);
-        })
-        .catch((error) => {
-          if (error.status) {
-            setNotFound('Product not found');
-          } else {
-            setNotFound(error.message);
-            throw new Error('An error occurred while fetching the product');
-          }
-        });
-    };
-
-    fetchProduct();
-  }, [params?.productId, setNotFound]);
-  useEffect(() => {
-    getProductPrice(0);
-  }, [product]);
-
-  useEffect(() => {
-    if (notFount === 'Product not found') {
-      return notFound();
-    }
-  }, [notFount]);
+  if (error) {
+    return notFound();
+  }
 
   const handlerAddToCart = () => {
-    if (product) {
+    if (data) {
       const selectedProduct: CartItem = {
-        ...product,
-        sizes: product.sizes[selectSizeId],
-        price: productCount * product.sizes[selectSizeId].price,
+        ...data,
+        sizes: data.sizes[selectSizeId],
+        price: productCount * data.sizes[selectSizeId].price,
         quantity: productCount,
-        discountPrice: product.discountPrice,
+        discountPrice: data.discountPrice,
       };
       addToCart(selectedProduct);
     }
   };
   return (
     <>
-      {product ? (
+      {isLoading ? (
+        <div className='grid lg:grid-cols-2 grid-cols-1 gap-7 p-10'>
+          {Array.from({ length: 2 }).map((_, index) => (
+            <div key={index} className='flex flex-col space-y-3 '>
+              <Skeleton className=' h-[10rem] lg:h-[30rem] w-full rounded-xl' />
+              <div className='space-y-2'>
+                <Skeleton className='h-4 w-full' />
+                <Skeleton className='h-4 w-full' />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
         <div className=' grid lg:grid-cols-2 grid-cols-1 gap-7'>
           <Image
             className='object-cover w-full h-[20rem] lg:h-[50rem]'
-            src={product.images?.url}
-            alt={product.name}
+            src={data.images?.url}
+            alt={data.name}
             width={600}
             height={800}
             unoptimized={true}
           />
           <div className='p-7 lg:p-10 flex gap-3 flex-col '>
-            <h5 className='text-[#C0BBAD] font-semibold'>
-              {product.categories}
-            </h5>
-            <h3 className='text-primary font-semibold text-3xl'>
-              {product.name}
-            </h3>
-            <p className='text-textColor text-sm'>{product.description}</p>
+            <h5 className='text-[#C0BBAD] font-semibold'>{data.categories}</h5>
+            <h3 className='text-primary font-semibold text-3xl'>{data.name}</h3>
+            <p className='text-textColor text-sm'>{data.description}</p>
             <div className='flex flex-col bg-lightBackground p-5 text-center my-5'>
               <p className='text-primary font-semibold text-lg'>
                 Essayez pendant 30 jours
@@ -101,7 +90,7 @@ export default function ProductDetail({
             </div>
             <p className='text-primary uppercase font-semibold'>Size</p>
             <div className='flex gap-2'>
-              {product.sizes.map((item: Size, index: number) => {
+              {data.sizes.map((item: Size, index: number) => {
                 return (
                   <div key={index}>
                     <RadioGroup defaultValue='comfortable'>
@@ -154,18 +143,6 @@ export default function ProductDetail({
               </button>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className='grid lg:grid-cols-2 grid-cols-1 gap-7 p-10'>
-          {Array.from({ length: 2 }).map((_, index) => (
-            <div key={index} className='flex flex-col space-y-3 '>
-              <Skeleton className=' h-[10rem] lg:h-[30rem] w-full rounded-xl' />
-              <div className='space-y-2'>
-                <Skeleton className='h-4 w-full' />
-                <Skeleton className='h-4 w-full' />
-              </div>
-            </div>
-          ))}
         </div>
       )}
     </>

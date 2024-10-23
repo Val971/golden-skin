@@ -15,9 +15,9 @@ export default function NotFoundProduct() {
         supprimé ou n'a jamais existé.`}
         </p>
         <Link href='/shop'>
-          <a className='px-6 py-3 bg-primary text-white font-semibold rounded-md hover:bg-secondary transition duration-300 ease-in-out'>
+          <p className='px-6 py-3 bg-primary text-white font-semibold rounded-md hover:bg-secondary transition duration-300 ease-in-out'>
             Retour à la boutique
-          </a>
+          </p>
         </Link>
       </div>
     </div>

@@ -69,7 +69,7 @@ export interface IOrderResponse {
   userId: number;
   status: number;
 }
-export type Hero = {
+export type IHero = {
   id: string;
   title: string;
   description: string;

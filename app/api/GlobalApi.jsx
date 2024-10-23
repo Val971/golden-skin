@@ -11,35 +11,29 @@ const axiosClient = axios.create({
     Authorization: `Bearer ${apiKey}`,
   },
 });
-const getCategoryList = () =>
-  axiosClient.get('/categories?populate=*').then((resp) => {
+const getCategoryList = (url) =>
+  axiosClient.get(url).then((resp) => {
     return resp.data.data;
   });
 
-const getHomePageHeroDatas = () =>
-  axiosClient
-    .get('/home-pages?populate=hero.button&populate=hero.image')
-    .then((resp) => {
-      return resp.data.data[0].hero;
-    });
+const getHomePageHeroDatas = (url) =>
+  axiosClient.get(url).then((resp) => {
+    return resp.data.data[0].hero;
+  });
 
-const getHomePageSectionsDatas = () =>
-  axiosClient
-    .get('/home-pages?populate=section.button&populate=section.image')
-    .then((resp) => {
-      return resp.data.data[0].section;
-    });
+const getHomePageSectionsDatas = (url) =>
+  axiosClient.get(url).then((resp) => {
+    return resp.data.data[0].section;
+  });
 
 const getProductById = (id) =>
   axiosClient.get('/products/' + id + '?populate=*').then((resp) => {
     return resp.data.data;
   });
-const getFamousProduct = () =>
-  axiosClient
-    .get('/products?filters[state][$eq]=Famous&populate=images')
-    .then((resp) => {
-      return resp.data.data;
-    });
+const getFamousProduct = (url) =>
+  axiosClient.get(url).then((resp) => {
+    return resp.data.data;
+  });
 
 const registerUser = (username, email, password) =>
   axiosClient
