@@ -88,21 +88,21 @@ export default function FloatMenu() {
                   <PopoverPanel
                     transition
                     anchor='bottom'
-                    className='divide-y mt-6 divide-white/5 rounded-xl bg-white text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0'>
+                    className='divide-y mt-6 divide-white/5 rounded-xl bg-white text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0 shadow-lg'>
                     <div className='p-3'>
                       <p className='font-bold text-black'>Mon compte</p>
                       <hr />
-                      <a className='flex gap-2 mt-2 rounded-lg py-2 px-3 transition hover:bg-lightBackground'>
+                      <a className='flex gap-2 mt-2 rounded-lg py-2 px-3 transition hover:bg-lightBackground cursor-pointer'>
                         <p className='font-semibold text-gray-700'>Profile</p>
                       </a>
-                      <a className='flex gap-2 rounded-lg py-2 px-3 transition hover:bg-lightBackground'>
+                      <a className='flex gap-2 rounded-lg py-2 px-3 transition hover:bg-lightBackground cursor-pointer'>
                         <p className='font-semibold text-gray-700'>
                           Mes commandes
                         </p>
                       </a>
                       <a
                         onClick={() => logout()}
-                        className='flex gap-2 rounded-lg py-2 px-3 transition hover:bg-lightBackground'>
+                        className='flex gap-2 rounded-lg py-2 px-3 transition hover:bg-lightBackground cursor-pointer'>
                         <p className='font-semibold text-gray-700'>
                           Déconnexion
                         </p>

@@ -1,5 +1,5 @@
 'use client';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import GlobalApi from '../api/GlobalApi';
@@ -36,6 +36,7 @@ export const AuthProvider = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
   const login = async (data: LogIn) => {
     setLoading(true);
@@ -52,7 +53,7 @@ export const AuthProvider = ({
         setUser(user);
         toast('Votre connexion a réussi.');
         setLoading(false);
-        redirect('/');
+        router.push('/');
       },
       () => {
         setLoading(false);
@@ -66,7 +67,7 @@ export const AuthProvider = ({
   const logout = () => {
     setUser(undefined);
     sessionStorage.clear();
-    redirect('/auth/sign-in');
+    router.push('/auth/sign-in');
   };
 
   const createAccount = async (data: Register) => {
@@ -78,7 +79,7 @@ export const AuthProvider = ({
         sessionStorage.setItem('jwt', JSON.stringify(resp.jwt));
         toast('Votre compte a bien été créer.');
         setLoading(false);
-        redirect('/');
+        router.push('/');
       },
       () => {
         setLoading(false);
