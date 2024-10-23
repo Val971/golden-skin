@@ -33,22 +33,22 @@ export default function Footer() {
             <ul className='space-y-1'>
               <li>
                 <a rel='noopener noreferrer' href='#'>
-                  Features
+                  Cadeaux & coffrets
                 </a>
               </li>
               <li>
                 <a rel='noopener noreferrer' href='#'>
-                  Integrations
+                  Visage
                 </a>
               </li>
               <li>
                 <a rel='noopener noreferrer' href='#'>
-                  Pricing
+                  Cheveux
                 </a>
               </li>
               <li>
                 <a rel='noopener noreferrer' href='#'>
-                  FAQ
+                  Vitamines
                 </a>
               </li>
             </ul>
@@ -66,26 +66,6 @@ export default function Footer() {
               <li>
                 <a rel='noopener noreferrer' href='#'>
                   Terms of Service
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className='space-y-3'>
-            <h3 className='uppercase dark:text-gray-900'>Developers</h3>
-            <ul className='space-y-1'>
-              <li>
-                <a rel='noopener noreferrer' href='#'>
-                  Public API
-                </a>
-              </li>
-              <li>
-                <a rel='noopener noreferrer' href='#'>
-                  Documentation
-                </a>
-              </li>
-              <li>
-                <a rel='noopener noreferrer' href='#'>
-                  Guides
                 </a>
               </li>
             </ul>
