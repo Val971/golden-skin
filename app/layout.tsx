@@ -6,7 +6,6 @@ import Footer from '../components/Footer';
 import { Toaster } from '@/components/ui/sonner';
 import { usePathname } from 'next/navigation';
 import { CartProvider } from './_context/CartContext';
-import { ProductProvider } from './_context/ProductListContext';
 import { AuthProvider } from './_context/AuthContext';
 import { OrderProvider } from './_context/OrderContext';
 
@@ -27,16 +26,14 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${poppins.className} antialiased`}>
         <AuthProvider>
-          <ProductProvider>
-            <OrderProvider>
-              <CartProvider>
-                {showHeader && <Header />}
-                {children}
-                <Toaster />
-                {showFooter && <Footer />}
-              </CartProvider>
-            </OrderProvider>
-          </ProductProvider>
+          <OrderProvider>
+            <CartProvider>
+              {showHeader && <Header />}
+              {children}
+              <Toaster />
+              {showFooter && <Footer />}
+            </CartProvider>
+          </OrderProvider>
         </AuthProvider>
       </body>
     </html>

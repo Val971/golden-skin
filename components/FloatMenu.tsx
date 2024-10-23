@@ -19,7 +19,7 @@ import { useCartContext } from '../app/_context/CartContext';
 import { useAuthContext } from '../app/_context/AuthContext';
 import CartItemList from './CartItemList';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const navigation = {
   pages: [
@@ -32,20 +32,25 @@ export default function FloatMenu() {
   const { user, logout } = useAuthContext();
   const params = usePathname();
   const jwt = sessionStorage.getItem('jwt');
+  const router = useRouter();
 
+  const handlerNav = (link: string) => {
+    if (link)
+      router.push(`${link.includes('shop') ? `${link}?query=all` : link}`);
+  };
   return (
     <>
       <PopoverGroup className='hidden lg:ml-8 lg:block lg:self-stretch'>
         <div className='flex h-full space-x-8'>
           {navigation.pages.map((page) => (
-            <Link
-              href={page.href}
+            <a
+              onClick={() => handlerNav(page.href)}
               key={page.name}
-              className={`flex items-center text-sm font-medium  hover:text-secondary ${
+              className={`flex items-center text-sm font-medium cursor-pointer  hover:text-secondary ${
                 params === page.href ? 'text-secondary' : 'text-gray-700'
               }`}>
               {page.name}
-            </Link>
+            </a>
           ))}
         </div>
       </PopoverGroup>

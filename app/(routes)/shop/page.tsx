@@ -19,11 +19,13 @@ import {
   PlusIcon,
 } from '@heroicons/react/20/solid';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useProductContext } from '@/app/_context/ProductListContext';
 import ProductCard from '@/components/products/ProductCard';
 import { IProduct } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import useSWR from 'swr';
+import GlobalApi from '@/app/api/GlobalApi';
+import { filterUniqueProducts } from '@/app/_utils/filter';
 
 const subCategories = [
   { key: 'all', name: 'Tous les produits' },
@@ -70,28 +72,41 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 export default function Products() {
+  const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+  const searchParams = useSearchParams();
+  const search = searchParams.get('query');
   const router = useRouter();
+  const { data, isLoading } = useSWR(
+    '/products?populate=*',
+    GlobalApi.getAllProducts
+  );
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const {
-    selectedFilter,
-    filterProductsByCategories,
-    productFilterByCategories,
-  } = useProductContext();
 
   useEffect(() => {
-    filterProductsByCategories('all');
-  }, []);
+    const uniqueData = filterUniqueProducts(data);
+    console.log(uniqueData);
+    if (uniqueData)
+      if (search && search !== 'all') {
+        const filterDatas = uniqueData.filter(
+          (item: IProduct) =>
+            item.categories &&
+            item.categories.toLocaleLowerCase().includes(search)
+        );
+        setFilteredProducts(filterDatas);
+      } else {
+        setFilteredProducts(uniqueData);
+      }
+  }, [data, search]);
 
   useEffect(() => {
-    // Prefetch individual product pages after products are fetched
-    productFilterByCategories.forEach((product) => {
-      router.prefetch(`/shop/${product.documentId}`);
-    });
-  }, [productFilterByCategories]);
+    if (data)
+      filterUniqueProducts(data).forEach((product: IProduct) => {
+        router.prefetch(`/shop/${product.documentId}`);
+      });
+  }, [data]);
 
   const handlerQuery = (key: string) => {
     router.push(`?query=${key}`);
-    filterProductsByCategories(key);
   };
   return (
     <div>
@@ -129,7 +144,7 @@ export default function Products() {
                 <ul role='list' className='px-2 py-3 font-medium text-gray-900'>
                   {subCategories.map((category) => (
                     <li
-                      onClick={() => filterProductsByCategories(category.key)}
+                      onClick={() => router.push(`?query=${category.key}`)}
                       key={category.name}>
                       <p className='block px-2 py-3'>{category.name}</p>
                     </li>
@@ -254,7 +269,7 @@ export default function Products() {
                       key={category.name}>
                       <p
                         className={`cursor-pointer ${
-                          selectedFilter === category.key
+                          search && category.key.includes(search)
                             ? 'text-secondary'
                             : 'text-gray-900'
                         }`}>
@@ -313,15 +328,7 @@ export default function Products() {
 
               {/* Product grid */}
               <div className='lg:col-span-3'>
-                {productFilterByCategories ? (
-                  <div className='grid 2xl:grid-cols-4  xl:grid-cols-3 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
-                    {productFilterByCategories.map((item: IProduct) => {
-                      return (
-                        <ProductCard key={item.documentId} product={item} />
-                      );
-                    })}
-                  </div>
-                ) : (
+                {isLoading ? (
                   <div className='grid 2xl:grid-cols-4  xl:grid-cols-3 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
                     {Array.from({ length: 4 }).map((_, index) => (
                       <div key={index} className='flex flex-col space-y-3 '>
@@ -332,6 +339,14 @@ export default function Products() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                ) : (
+                  <div className='grid 2xl:grid-cols-4  xl:grid-cols-3 lg:grid-cols-3 grid-cols-2  justify-between gap-8'>
+                    {filteredProducts.map((item: IProduct) => {
+                      return (
+                        <ProductCard key={item.documentId} product={item} />
+                      );
+                    })}
                   </div>
                 )}
               </div>

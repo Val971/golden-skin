@@ -45,8 +45,8 @@ const registerUser = (username, email, password) =>
     .then((resp) => {
       return resp.data;
     });
-const getAllProducts = () =>
-  axiosClient.get('/products?populate=*').then((resp) => {
+const getAllProducts = (url) =>
+  axiosClient.get(url).then((resp) => {
     return resp.data.data;
   });
 const getSearchProducts = (query) =>

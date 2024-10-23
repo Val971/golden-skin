@@ -16,6 +16,8 @@ export default function CategoryCard({ category }: CategoryCardProps) {
           width={400}
           height={300}
           unoptimized={true}
+          priority
+          loading='eager'
         />
       </div>
       <h4 className='text-xl font-semibold mb-2 mt-5'>{category.name}</h4>
