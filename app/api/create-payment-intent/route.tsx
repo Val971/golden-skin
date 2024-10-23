@@ -19,8 +19,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.log('Intent Error:', error);
-
     return NextResponse.json(
       { error: `Iternal server Error: ${error}` },
       { status: 500 }

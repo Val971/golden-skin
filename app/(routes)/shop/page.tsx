@@ -84,7 +84,6 @@ export default function Products() {
 
   useEffect(() => {
     const uniqueData = filterUniqueProducts(data);
-    console.log(uniqueData);
     if (uniqueData)
       if (search && search !== 'all') {
         const filterDatas = uniqueData.filter(
