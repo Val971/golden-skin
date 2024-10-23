@@ -35,7 +35,10 @@ export default function ProductCard({ product }: ProductCartProps) {
           </div>
         </div>
       ) : (
-        <SkeletonCard height='20rem' width='250px' />
+        <SkeletonCard
+          styleBloc1='h-[250px] w-[20rem]'
+          styleBloc2='h-4 w-full'
+        />
       )}
     </div>
   );

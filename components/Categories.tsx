@@ -5,28 +5,28 @@ import Slider from './Slider';
 import { ICategory } from '@/app/types';
 import CategoryCard from './CategoryCard';
 import { CarouselItem } from './ui/carousel';
-import { Skeleton } from '@/components/ui/skeleton';
 import useSWR from 'swr';
 import GlobalApi from '@/app/api/GlobalApi';
+import { SkeletonCard } from './SkeletonCard';
 
 export default function Categories() {
   const { data, isLoading } = useSWR(
     '/categories?populate=*',
-    GlobalApi.getCategoryList
+    GlobalApi.getCategoryList,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
   );
   return (
     <ContentWrapper>
       {isLoading ? (
         <div className='flex justify-between mt-10 lg:mt-20'>
-          {Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className='flex flex-col space-y-3 '>
-              <Skeleton className='h-[125px] lg:w-[250px] rounded-xl' />
-              <div className='space-y-2'>
-                <Skeleton className='h-4 lg:w-[250px] w-20' />
-                <Skeleton className='h-4 lg:w-[200px] w-20' />
-              </div>
-            </div>
-          ))}
+          <SkeletonCard
+            length={4}
+            styleBloc1='h-[125px] lg:w-[250px]'
+            styleBloc2='h-4 lg:w-[250px] w-20'
+          />
         </div>
       ) : (
         <div className='flex justify-center mt-10  lg:mt-20'>

@@ -1,30 +1,27 @@
 'use client';
 import React from 'react';
 import useSWR from 'swr';
-import { Skeleton } from '@/components/ui/skeleton';
 import Button from './Button';
 import GlobalApi from '@/app/api/GlobalApi';
+import { SkeletonCard } from './SkeletonCard';
 
 export default function Hero() {
   const { data, isLoading } = useSWR(
     '/home-pages?populate=hero.button&populate=hero.image',
-    GlobalApi.getHomePageHeroDatas
+    GlobalApi.getHomePageHeroDatas,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
   );
 
   return (
     <section className='bg-gray-50'>
       {isLoading ? (
-        <>
-          {Array.from({ length: 1 }).map((_, index) => (
-            <div key={index} className='mx-auto m animate-pulse px-4 2xl:px-0'>
-              <Skeleton className=' h-[10rem] lg:h-[30rem] w-full rounded-xl' />
-              <div className='space-y-2'>
-                <Skeleton className='h-4 w-full' />
-                <Skeleton className='h-4 w-full' />
-              </div>
-            </div>
-          ))}
-        </>
+        <SkeletonCard
+          styleBloc1='h-[10rem] lg:h-[30rem] w-full'
+          styleBloc2='h-4 w-full'
+        />
       ) : (
         <div
           style={{

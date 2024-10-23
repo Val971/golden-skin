@@ -2,28 +2,28 @@
 import React from 'react';
 import Image from 'next/image';
 import ContentWrapper from './ContentWrapper';
-import { Skeleton } from '@/components/ui/skeleton';
 import GlobalApi from '@/app/api/GlobalApi';
 import useSWR from 'swr';
+import { SkeletonCard } from './SkeletonCard';
 
 export default function Section() {
   const { data, isLoading } = useSWR(
     '/home-pages?populate=section.button&populate=section.image',
-    GlobalApi.getHomePageSectionsDatas
+    GlobalApi.getHomePageSectionsDatas,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
   );
   return (
     <ContentWrapper>
       {isLoading ? (
         <div className='grid lg:grid-cols-2 grid-cols-1 gap-7 p-10'>
-          {Array.from({ length: 2 }).map((_, index) => (
-            <div key={index} className='flex flex-col space-y-3 '>
-              <Skeleton className=' h-[10rem] lg:h-[30rem] w-full rounded-xl' />
-              <div className='space-y-2'>
-                <Skeleton className='h-4 w-full' />
-                <Skeleton className='h-4 w-full' />
-              </div>
-            </div>
-          ))}
+          <SkeletonCard
+            length={2}
+            styleBloc1='h-[10rem] lg:h-[30rem] w-full'
+            styleBloc2='h-4 w-full'
+          />
         </div>
       ) : (
         <div className='container flex gap-20 flex-col justify-center mx-auto py-12 lg:py-24 lg:flex-row '>

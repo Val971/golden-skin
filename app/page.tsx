@@ -1,9 +1,18 @@
 import type { Metadata } from 'next';
+import React, { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import Banner from '../components/Banner';
-import Categories from '../components/Categories';
-import FamousProductList from '../components/FamousProductList';
-import Hero from '../components/Hero';
-import Section from '../components/Section';
+import { SkeletonCard } from '@/components/SkeletonCard';
+
+const Hero = dynamic(() => import('../components/Hero'), { ssr: false });
+const Categories = dynamic(() => import('../components/Categories'), {
+  ssr: false,
+});
+const FamousProductList = dynamic(
+  () => import('../components/FamousProductList'),
+  { ssr: false }
+);
+const Section = dynamic(() => import('../components/Section'), { ssr: false });
 
 export const metadata: Metadata = {
   title: 'GoldenSkin Ecommerce',
@@ -13,11 +22,46 @@ export const metadata: Metadata = {
 const Home = async () => {
   return (
     <div>
-      <Hero />
-      <Categories />
+      <Suspense
+        fallback={
+          <SkeletonCard
+            styleBloc1='h-[10rem] lg:h-[30rem] w-full'
+            styleBloc2='h-4 w-full'
+          />
+        }>
+        <Hero />
+      </Suspense>
+      <Suspense
+        fallback={
+          <SkeletonCard
+            length={4}
+            styleBloc1='h-[125px] lg:w-[250px]'
+            styleBloc2='h-4 lg:w-[250px] w-20'
+          />
+        }>
+        <Categories />
+      </Suspense>
       <Banner />
-      <FamousProductList />
-      <Section />
+      <Suspense
+        fallback={
+          <SkeletonCard
+            length={4}
+            styleBloc1='h-[10rem] lg:h-[20rem] lg:w-[250px]'
+            styleBloc2='h-4 lg:w-[250px]'
+          />
+        }>
+        <FamousProductList />
+      </Suspense>
+      <Suspense
+        fallback={
+          <SkeletonCard
+            length={2}
+            styleBloc1='h-[10rem] lg:h-[30rem] w-full'
+            styleBloc2='h-4 w-full'
+          />
+        }>
+        <Section />
+      </Suspense>
     </div>
   );
 };
