@@ -7,6 +7,7 @@ const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api`;
 const axiosClient = axios.create({
   baseURL: apiUrl,
   headers: {
+    // 'Cache-Control': 'public, max-age=3600',
     'Content-Type': 'application/json',
     Authorization: `Bearer ${apiKey}`,
   },
