@@ -37,7 +37,7 @@ export default function NotFound() {
             <Link
               href={'/'}
               className='w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-primary rounded-lg shrink-0 sm:w-auto hover:bg-blue-600'>
-              Aller á la page d&aposaccueil
+              {`Aller á la page d'accueil`}
             </Link>
           </div>
         </div>

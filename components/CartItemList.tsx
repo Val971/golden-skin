@@ -110,7 +110,9 @@ export default function CartItemList(props: CartItemListProps) {
             <button
               disabled={cartItemList.length == 0}
               onClick={() =>
-                router.push(jwt ? `/checkout/${user?.documentId}` : '/sign-in')
+                router.push(
+                  jwt ? `/checkout/${user?.documentId}` : '/auth/sign-in'
+                )
               }
               className={`${
                 cartItemList.length == 0
