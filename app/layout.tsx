@@ -10,8 +10,8 @@ import { AuthProvider } from './_context/AuthContext';
 import { OrderProvider } from './_context/OrderContext';
 
 const poppins = Poppins({
-  weight: ['400', '500', '600', '700'], // Vous pouvez spécifier les poids que vous voulez
-  subsets: ['latin'], // Support des caractères latins
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
 });
 
 export default function RootLayout({
@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const params = usePathname();
-  const showHeader = ['/checkout'].includes(params) ? false : true;
-  const showFooter = ['/checkout'].includes(params) ? false : true;
+  const showHeader = params.includes('/checkout') ? false : true;
+  const showFooter = params.includes('/checkout') ? false : true;
   return (
     <html lang='en'>
       <body className={`${poppins.className} antialiased`}>

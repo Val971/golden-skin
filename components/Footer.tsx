@@ -1,29 +1,12 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import Logo from './Logo';
 
 export default function Footer() {
   return (
     <footer className='px-4 divide-y dark:bg-gray-100 dark:text-gray-800'>
       <div className='container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0'>
         <div className='lg:w-1/3'>
-          <Link
-            href={'/'}
-            rel='noopener noreferrer'
-            className='flex justify-center space-x-3 lg:justify-start'>
-            <div className='flex items-center justify-center w-12 h-12 rounded-full dark:bg-violet-600'>
-              <Image
-                alt='logo'
-                width={90}
-                height={100}
-                src='/goldenSkin.svg'
-                className='h-8 w-auto'
-              />
-            </div>
-            <span className='self-center text-2xl font-semibold'>
-              Golden Skin
-            </span>
-          </Link>
+          <Logo width={90} height={100} />
         </div>
         <div className='grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4'>
           <div className='space-y-3'>

@@ -1,67 +1,65 @@
-import React from 'react';
-
-import {
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-} from '@headlessui/react';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { ShoppingBagIcon } from '@heroicons/react/24/outline';
-import { useCartContext } from '../app/_context/CartContext';
+'use client';
+import React, { useEffect, useRef, useState } from 'react';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
+import SearchCardProduct from './products/SearchCardProduct';
+import Cart from './Cart';
 import { useAuthContext } from '../app/_context/AuthContext';
-import CartItemList from './CartItemList';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import useDebounce from '@/hook/useDebounce';
 
-const navigation = {
-  pages: [
-    { name: 'Boutique', href: '/shop' },
-    { name: 'À propos', href: '/about' },
-  ],
-};
 export default function FloatMenu() {
-  const { cart, totalCartItem } = useCartContext();
   const { user, logout } = useAuthContext();
-  const params = usePathname();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isPopoverOpen, setPopoverOpen] = useState(false);
+  const [isMobilePopoverOpen, setMobilePopoverOpen] = useState(false);
   const jwt = sessionStorage.getItem('jwt');
-  const router = useRouter();
+  const popoverRef = useRef<HTMLDivElement | null>(null);
+  const mobilePopoverRef = useRef<HTMLDivElement | null>(null);
+  const debouncedSearchValue = useDebounce(searchQuery, 1000);
 
-  const handlerNav = (link: string) => {
-    if (link)
-      router.push(`${link.includes('shop') ? `${link}?query=all` : link}`);
-  };
+  // Fermer le popover lorsqu'on clique à l'extérieur
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node)
+      ) {
+        setPopoverOpen(false);
+        setSearchQuery('');
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [popoverRef]);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        mobilePopoverRef.current &&
+        !mobilePopoverRef.current.contains(event.target as Node)
+      ) {
+        setMobilePopoverOpen(false);
+        setSearchQuery('');
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobilePopoverRef]);
+
   return (
     <>
-      <PopoverGroup className='hidden lg:ml-8 lg:block lg:self-stretch'>
-        <div className='flex h-full space-x-8'>
-          {navigation.pages.map((page) => (
-            <a
-              onClick={() => handlerNav(page.href)}
-              key={page.name}
-              className={`flex items-center text-sm font-medium cursor-pointer  hover:text-secondary ${
-                params === page.href ? 'text-secondary' : 'text-gray-700'
-              }`}>
-              {page.name}
-            </a>
-          ))}
-        </div>
-      </PopoverGroup>
-
       <div className='ml-auto flex items-center'>
         <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
           {jwt ? (
             <>
               <div className=''>
                 <Popover>
-                  <PopoverButton className=' flex text-sm justify-center items-center gap-2 font-semibold text-gray-700 focus:outline-none data-[active]:text-secondary data-[hover]:text-secondary data-[focus]:outline-1 data-[focus]:outline-secondary'>
+                  <PopoverButton className='flex text-sm justify-center  items-center gap-2 font-semibold text-gray-700 focus:outline-none data-[active]:text-secondary data-[hover]:text-secondary data-[focus]:outline-1 data-[focus]:outline-secondary w-[10rem]'>
                     <svg
                       width='30px'
                       height='30px'
@@ -80,10 +78,9 @@ export default function FloatMenu() {
                         </g>
                       </g>
                     </svg>
-                    <div className='flex gap-2'>
-                      <p>Bonjour </p>
-                      <p>{user && user.username} !</p>
-                    </div>
+                    <p className='min-w-48'>
+                      {`Bonjour ${user && user.username} !`}{' '}
+                    </p>
                   </PopoverButton>
                   <PopoverPanel
                     transition
@@ -127,62 +124,88 @@ export default function FloatMenu() {
               </Link>
             </>
           )}
-        </div>
-        {/* 
-        <div className='hidden lg:ml-8 lg:flex'>
-          <a className='flex items-center text-gray-700 hover:text-secondary'>
-            <img
-              alt=''
-              src='https://tailwindui.com/img/flags/flag-canada.svg'
-              className='block h-auto w-5 flex-shrink-0'
+          {/* Champ de recherche */}
+          <div className='relative'>
+            <input
+              type='text'
+              className='hidden lg:flex w-full md:w-64 border border-gray-300 rounded-md p-2'
+              placeholder='Search...'
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setPopoverOpen(true)}
             />
-            <span className='ml-3 block text-sm font-medium'>CAD</span>
-            <span className='sr-only'>, change currency</span>
-          </a>
-        </div> */}
-
-        {/* Search */}
-        {/* <div className='flex lg:ml-6'>
-          <a className='p-2 text-gray-400 hover:text-secondary'>
-            <span className='sr-only'>Search</span>
-            <MagnifyingGlassIcon aria-hidden='true' className='h-6 w-6' />
-          </a>
-        </div> */}
-
-        <Sheet>
-          <SheetTrigger asChild>
-            {/* Cart */}
-            <div className='ml-4 flow-root lg:ml-6'>
-              <a className='group -m-2 flex items-center p-2 cursor-pointer'>
-                <ShoppingBagIcon
-                  aria-hidden='true'
-                  className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-secondary'
+            <button
+              type='submit'
+              className='absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800'>
+              <svg
+                className='w-6 h-6'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M21 21l-4.35-4.35M10.5 18A7.5 7.5 0 1010.5 3a7.5 7.5 0 000 15z'
                 />
-                <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-secondary'>
-                  {totalCartItem}
-                </span>
-                <span className='sr-only'>items in cart, view bag</span>
-              </a>
-            </div>
-          </SheetTrigger>
-          <SheetContent className='flex flex-col h-screen w-96 '>
-            <div className='flex flex-col justify-between  '>
-              <SheetHeader>
-                <SheetTitle className='flex gap-5'>
-                  <ShoppingBagIcon
-                    aria-hidden='true'
-                    className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-secondary'
-                  />{' '}
-                  <p className='uppercase'>votre pannier</p>
-                </SheetTitle>
-                <hr />
-                <SheetDescription></SheetDescription>
-              </SheetHeader>
-            </div>
-            {/* Liste des articles du panier */}
-            <CartItemList cartItemList={cart} />
-          </SheetContent>
-        </Sheet>
+              </svg>
+            </button>
+            {/* Popover des résultats de recherche */}
+            {isPopoverOpen && searchQuery && (
+              <div
+                ref={popoverRef}
+                className='absolute z-10 mt-1 w-full md:w-64 bg-white border border-gray-300 rounded-md shadow-lg'>
+                <SearchCardProduct searchTerm={debouncedSearchValue} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Champ de recherche et icône pour mobile */}
+        <div className='relative w-full md:w-auto flex-1'>
+          <button
+            type='submit'
+            onClick={() => {
+              setMobilePopoverOpen(true);
+            }}
+            className='flex lg:hidden text-gray-500 hover:text-secondary'>
+            <svg
+              className='w-6 h-6'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M21 21l-4.35-4.35M10.5 18A7.5 7.5 0 1010.5 3a7.5 7.5 0 000 15z'
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Popover des résultats de recherche */}
+        {isMobilePopoverOpen && (
+          <div
+            ref={mobilePopoverRef}
+            className='absolute right-0 w-full mx-auto md:max-w-xs bg-white border border-gray-300 rounded-md shadow-lg top-28 z-10 overflow-hidden'>
+            <input
+              type='text'
+              className='w-full border border-gray-300 rounded-md p-2'
+              placeholder='Search...'
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setMobilePopoverOpen(true)}
+            />
+
+            <SearchCardProduct searchTerm={debouncedSearchValue} />
+          </div>
+        )}
+
+        {/* Panier et bouton */}
+        <Cart />
       </div>
     </>
   );

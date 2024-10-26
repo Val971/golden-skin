@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const UserProfile = () => {
@@ -30,7 +31,9 @@ const UserProfile = () => {
       <div className='bg-white shadow-md rounded-lg p-4'>
         {/* User Info Section */}
         <div className='flex items-center space-x-6 mb-4'>
-          <img
+          <Image
+            width={40}
+            height={40}
             src={user.avatarUrl}
             alt='User Avatar'
             className='w-24 h-24 rounded-full border-2 border-gray-200'

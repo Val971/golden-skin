@@ -1,10 +1,12 @@
-import ContentWrapper from '@/components/ContentWrapper';
+import BreadCrumb from '@/components/BreadCrumb';
+import WrapperContent from '@/components/WrapperContent';
 import Image from 'next/image';
 import React from 'react';
 
 const About = () => {
   return (
-    <ContentWrapper>
+    <WrapperContent>
+      <BreadCrumb />
       <h1 className='text-5xl font-bold leading-none sm:text-6xl text-center mt-8 mb-20'>
         À Propos de Golden Skin
       </h1>
@@ -51,7 +53,7 @@ const About = () => {
           </div>
         </div>
       </section>
-    </ContentWrapper>
+    </WrapperContent>
   );
 };
 

@@ -16,8 +16,8 @@ import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCartContext } from '@/app/_context/CartContext';
 import { useAuthContext } from '@/app/_context/AuthContext';
-import Link from 'next/link';
 import { useOrderContext } from '@/app/_context/OrderContext';
+import Link from 'next/link';
 
 interface checkoutSectionProps {
   subTotal: number;
@@ -128,26 +128,14 @@ export default function CheckoutSection({
   };
   return (
     <div className=' items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32'>
-      <div className='flex mb-14 gap-5'>
-        <Link
-          href={'/'}
-          className='text-2xl flex gap-5 font-bold text-gray-800 cursor-pointer'>
-          <Image
-            alt='logo'
-            width={90}
-            height={100}
-            src='/goldenSkin.svg'
-            className='h-8 w-auto'
-          />{' '}
-          Golden Skin
-        </Link>
+      <div className='flex mb-14 gap-5 w-full justify-center md:justify-start'>
         <div className='mt-4 py-2 text-xs sm:mt-0 sm:ml-20 sm:text-base'>
           <div className='relative'>
-            <ul className='relative flex w-full items-center justify-between space-x-2 sm:space-x-4'>
+            <ul className='relative flex w-full  space-x-2 sm:space-x-4'>
               <li className='flex items-center space-x-3 text-left sm:space-x-4'>
-                <a
+                <Link
                   className='flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700'
-                  href='#'>
+                  href='/shop'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     className='h-4 w-4'
@@ -161,7 +149,7 @@ export default function CheckoutSection({
                       d='M5 13l4 4L19 7'
                     />
                   </svg>
-                </a>
+                </Link>
                 <span className='font-semibold text-gray-900'>Boutique</span>
               </li>
               <svg
@@ -237,7 +225,9 @@ export default function CheckoutSection({
               <label
                 className='peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4'
                 htmlFor='radio_1'>
-                <img
+                <Image
+                  width={40}
+                  height={40}
                   className='w-14 object-contain'
                   src='/images/naorrAeygcJzX0SyNI4Y0.png'
                   alt=''
@@ -262,7 +252,9 @@ export default function CheckoutSection({
               <label
                 className='peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4'
                 htmlFor='radio_2'>
-                <img
+                <Image
+                  width={40}
+                  height={40}
                   className='w-14 object-contain'
                   src='/images/oG8xsl3xsOkwkMsrLGKM4.png'
                   alt=''

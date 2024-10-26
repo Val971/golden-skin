@@ -34,7 +34,7 @@ export default function CartItemList(props: CartItemListProps) {
           cartItemList.map((item, index) => {
             return (
               <div key={index}>
-                <div className='flex gap-5 my-3' key={index}>
+                <div className='flex gap-5 my-3'>
                   <Image
                     alt='item cart'
                     width={150}

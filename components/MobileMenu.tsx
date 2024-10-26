@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-
 import {
   Dialog,
   DialogBackdrop,
@@ -9,10 +8,10 @@ import {
   TabList,
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
 import { useAuthContext } from '../app/_context/AuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Logo from './Logo';
 
 const navigation = {
   pages: [
@@ -55,21 +54,7 @@ export default function MobileMenu({ open, setOpen }: MobileMenuProps) {
           <TabGroup className='mt-2'>
             <div className='border-b border-gray-200'>
               <TabList className='flex  mb-4 space-x-8 px-4'>
-                <Link
-                  href='/'
-                  className='ml-4 flex gap-4 lg:ml-0 cursor-pointer'>
-                  <span className='sr-only'>Golden Skin</span>
-                  <Image
-                    alt='logo'
-                    width={90}
-                    height={100}
-                    src='/goldenSkin.svg'
-                    className='h-8 w-auto cursor-pointer'
-                  />
-                  <p className='self-center font-extrabold text-xl'>
-                    Golden Skin
-                  </p>
-                </Link>
+                <Logo width={90} height={100} />
               </TabList>
             </div>
           </TabGroup>
