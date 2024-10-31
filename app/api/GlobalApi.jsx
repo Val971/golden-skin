@@ -3,37 +3,28 @@ import { filterUniqueProducts } from '../_utils/filter';
 
 const apiKey = process.env.NEXT_PUBLIC_REST_API_KEY;
 const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api`;
-
+const headers = {
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${apiKey}`,
+};
 const axiosClient = axios.create({
   baseURL: apiUrl,
   headers: {
-    // 'Cache-Control': 'public, max-age=3600',
     'Content-Type': 'application/json',
     Authorization: `Bearer ${apiKey}`,
   },
 });
-const getCategoryList = (url) =>
-  axiosClient.get(url).then((resp) => {
-    return resp.data.data;
+
+const getDatas = async (url) =>
+  await fetch(`${apiUrl}${url}`, {
+    method: 'GET',
+    headers,
   });
 
-const getHomePageHeroDatas = (url) =>
-  axiosClient.get(url).then((resp) => {
-    return resp.data.data[0].hero;
-  });
-
-const getHomePageSectionsDatas = (url) =>
-  axiosClient.get(url).then((resp) => {
-    return resp.data.data[0].section;
-  });
-
-const getProductById = (id) =>
-  axiosClient.get('/products/' + id + '?populate=*').then((resp) => {
-    return resp.data.data;
-  });
-const getFamousProduct = (url) =>
-  axiosClient.get(url).then((resp) => {
-    return resp.data.data;
+const getDataById = async (url) =>
+  await fetch(`${apiUrl}${url}`, {
+    method: 'GET',
+    headers,
   });
 
 const registerUser = (username, email, password) =>
@@ -46,10 +37,7 @@ const registerUser = (username, email, password) =>
     .then((resp) => {
       return resp.data;
     });
-const getAllProducts = (url) =>
-  axiosClient.get(url).then((resp) => {
-    return resp.data.data;
-  });
+
 const getSearchProducts = (query) =>
   axiosClient
     .get(`/products?filters[name][$containsi]=${query}&populate=*`)
@@ -97,16 +85,12 @@ const getCartItems = (id) =>
     });
 
 export default {
-  getCategoryList,
-  getProductById,
+  getDatas,
+  getDataById,
   registerUser,
   signIn,
   getCartItems,
   createOrder,
-  getAllProducts,
-  getHomePageHeroDatas,
-  getHomePageSectionsDatas,
   updateStock,
-  getFamousProduct,
   getSearchProducts,
 };

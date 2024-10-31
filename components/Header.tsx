@@ -23,7 +23,7 @@ export default function Header() {
       <p className='flex h-10 items-center justify-center text-center bg-primary px-4 text-sm font-medium text-white sm:px-6 lg:px-8'>
         Bénéficiez de la livraison gratuite sur les commandes de plus de 100 $
       </p>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <div className=' mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex justify-between h-16 items-center'>
           <button
             type='button'
